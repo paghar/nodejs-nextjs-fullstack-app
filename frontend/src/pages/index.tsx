@@ -1,13 +1,14 @@
 import AdminPage from "@components/AdminPage";
-import ProductPage from "@components/ProductPage";
-import Layout from "@components/Layout";
+
+import LayoutWrapper from "@containers/LayoutWrapper";
+import ProductPageWrapper from "@containers/ProductPageWrapper";
 
 export default function Home() {
  
   return (
-    <Layout>
-      <ProductPage />
-    </Layout>
+    <LayoutWrapper>
+      <ProductPageWrapper />
+    </LayoutWrapper>
  
   //  <AdminPage/>
   );
