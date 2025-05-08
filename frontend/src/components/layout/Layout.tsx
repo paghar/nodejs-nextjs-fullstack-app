@@ -1,17 +1,10 @@
 import Image from "next/image";
-import Link from "next/link";
-import { ReactNode } from "react";
-import Cart from "./Cart";
-
-interface LayoutProps {
-  cartItems: any[];
-  calculateTotal: () => string;
-  children: ReactNode;
-  handleCheckout: () => void;
-  handleRemoveItem: (id: number) => void;
-  isOpenCart: () => void;
-  showCart: boolean;
-}
+import Cart from "@components/cart/Cart";
+import { LayoutProps } from "@data/interface/layout";
+import Button from "@components/ui/Button";
+import LinkComponent from "@components/ui/LinkComponent";
+import { layoutBtn } from "@data/constants/layout";
+import { footer } from "@data/constants/layout";
 
 export default function Layout({
   showCart,
@@ -30,12 +23,9 @@ export default function Layout({
           <Image src="/globe.svg" alt="Next.js" width={32} height={32} />
         </div>
         <div className="relative">
-          <button
-            onClick={isOpenCart}
-            className="bg-[#e6005c] text-white px-4 py-2 rounded hover:bg-[#cc0052]"
-          >
-            Cart
-          </button>
+          <Button onClick={isOpenCart}>{layoutBtn.cart}</Button>
+
+          {/* Cart Component */}
           {showCart && (
             <Cart
               items={cartItems}
@@ -47,14 +37,10 @@ export default function Layout({
         </div>
       </header>
 
-      {/* Menu */}
+      {/* Navigation */}
       <nav className="bg-[#e6005c] text-white px-6 py-3 shadow flex gap-6">
-        <Link href="/" className="hover:underline">
-          Product Catalog
-        </Link>
-        <Link href="/AdminPage" className="hover:underline">
-          Admin Panel
-        </Link>
+        <LinkComponent href="/">{layoutBtn.productCatalog}</LinkComponent>
+        <LinkComponent href="/AdminPage">{layoutBtn.adminPanel}</LinkComponent>
       </nav>
 
       {/* Main Content */}
@@ -62,7 +48,7 @@ export default function Layout({
 
       {/* Footer */}
       <footer className="bg-gray-100 text-center text-sm p-4 mt-8">
-        © {new Date().getFullYear()} Product Store. All rights reserved.
+        {footer}
       </footer>
     </div>
   );

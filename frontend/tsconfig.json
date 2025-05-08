@@ -17,10 +17,7 @@
     "paths": {     
       "@components/*": ["./src/components/*"],
       "@containers/*": ["./src/containers/*"],
-      // "@data/*": ["./src/data/*"],
-      // "@contexts/*": ["./src/contexts/*"],
-      // "@framework/*": ["./src/framework/basic-rest/*"],
-      // "@settings/*": ["./src/settings/*"],
+      "@data/*": ["./src/data/*"],     
       "@styles/*": ["./src/styles/*"],
       // "@utils/*": ["./src/utils/*"],
       // "@hooks/*": ["./src/hooks/*"]

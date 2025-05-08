@@ -1,21 +1,15 @@
-import TextBox from "./ui/TextBox";
-import Button from "./ui/Button";
+import TextBox from "@components/ui/TextBox";
+import Button from "@components/ui/Button";
 import ProductTable from "./ProductTable";
-
-export interface Product {
-  title: string;
-  image: string;
-  price: string;
-  description: string;
-}
+import { ProductType } from "../../data/interface/product";
 
 interface AddProductProps {
-  products: Product[];
-  form: Product;
+  products: ProductType[];
+  form: ProductType;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   onAdd: () => void;
   onUpdate: () => void;
-  onEdit: (product: Product, index: number) => void;
+  onEdit: (product: ProductType, index: number) => void;
   onDelete: (index: number) => void;
   isEditing: boolean;
 }
@@ -33,7 +27,7 @@ export default function AddProduct({
   return (
     <div className="p-6 max-w-5xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-[#e6005c]">
-        Admin - {isEditing ? "Edit Product" : "Add Product"}
+        {isEditing ? "Edit Product" : "Add Product"}
       </h1>
 
       {/* Product Form */}

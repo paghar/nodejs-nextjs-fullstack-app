@@ -1,9 +1,8 @@
-// containers/ProductPageWrapper.tsx
 import { useState, useEffect, useMemo } from "react";
-import ProductPage from "../components/ProductPage";
+import ProductPage from "@components/product/ProductPage";
 
 export default function ProductPageWrapper() {
-  const [products, setProducts] = useState([]);
+  const [products, setProducts] = useState<{ id: number; title: string; image: string; price: string; description: string }[]>([]);
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("title");
   const [currentPage, setCurrentPage] = useState(1);
@@ -13,7 +12,7 @@ export default function ProductPageWrapper() {
     const generated = Array.from({ length: 30 }).map((_, i) => ({
       id: i + 1,
       title: `Product ${i + 1}`,
-      image: "https://via.placeholder.com/150",
+      image: "https://loremflickr.com/320/240/dog",
       price: (Math.random() * 100 + 10).toFixed(2),
       description: "This is a sample product description.",
     }));
@@ -21,20 +20,20 @@ export default function ProductPageWrapper() {
   }, []);
 
   const filteredAndSorted = useMemo(() => {
-    let result = products.filter((p) =>
+    const result = products.filter((p) =>
       p.title.toLowerCase().includes(search.toLowerCase())
     );
 
     switch (sort) {
-      case "price-asc":
-        result.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-        break;
-      case "price-desc":
-        result.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
-        break;
-      case "title":
-      default:
-        result.sort((a, b) => a.title.localeCompare(b.title));
+    case "price-asc":
+      result.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
+      break;
+    case "price-desc":
+      result.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
+      break;
+    case "title":
+    default:
+      result.sort((a, b) => a.title.localeCompare(b.title));
     }
 
     return result;

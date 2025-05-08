@@ -1,24 +1,10 @@
-import Layout from "@components/Layout";
+import Layout from "@components/layout/Layout";
+import { cartItems } from "@data/constants/cart";
 import { ReactNode, useState } from "react";
 
 export default function LayoutWrapper({ children }: { children: ReactNode }) {
-  const cartItems = [
-    {
-      id: 1,
-      title: "Product 1",
-      price: 19.99,
-      quantity:3
-    },
-    {
-      id: 2,
-      title: "Product 2",
-      price: 29.99,
-      quantity:5
-    },
-  ];
-      
+    
   const [showCart, setShowCart] = useState(false);
-
 
   const isOpenCart = () => {  
     setShowCart((prev) => !prev);
@@ -54,7 +40,5 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
     >
       {children}
     </Layout>
-           
-   
   );
 }

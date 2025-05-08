@@ -1,27 +1,8 @@
-// components/ProductPage.tsx
-import TextBox from "./ui/TextBox";
-import SelectBox from "./ui/SelectBox";
-import ProductGrid from "./ProductGrid";
-import Pagination from "./Pagination";
-
-interface Product {
-  id: number;
-  title: string;
-  image: string;
-  price: string;
-  description: string;
-}
-
-interface ProductPageProps {
-  products: Product[];
-  search: string;
-  sort: string;
-  currentPage: number;
-  totalPages: number;
-  onSearch: (value: string) => void;
-  onSort: (value: string) => void;
-  onPageChange: (page: number) => void;
-}
+import TextBox from "@components/ui/TextBox";
+import SelectBox from "@components/ui/SelectBox";
+import ProductGrid from "@components/product/ProductGrid";
+import Pagination from "@components/product/Pagination";
+import { ProductPageProps } from "@data/interface/product";
 
 export default function ProductPage({
   products,

@@ -1,24 +1,20 @@
 import { useState } from "react";
-import AddProduct from "@components/AddProduct";
-
-export interface Product {
-  title: string;
-  image: string;
-  price: string;
-  description: string;
-}
+import AddProduct from "@components/adminPanel/AddProduct";
+import { ProductType } from "@data/interface/product";
 
 export default function AddProductWrapper() {
-  const [products, setProducts] = useState<Product[]>([
+  const [products, setProducts] = useState<ProductType[]>([
     {
       title: "Sample Product",
-      image: "https://via.placeholder.com/50",
+      image: "https://loremflickr.com/320/240/dog",
       price: "19.99",
       description: "This is a sample product.",
+      id: 0
     },
   ]);
 
-  const [form, setForm] = useState<Product>({
+  const [form, setForm] = useState<ProductType>({
+    id: -1, // Default id value
     title: "",
     image: "",
     price: "",
@@ -35,10 +31,10 @@ export default function AddProductWrapper() {
   const handleAddProduct = () => {
     if (!form.title || !form.image || !form.price || !form.description) return;
     setProducts((prev) => [...prev, { ...form }]);
-    setForm({ title: "", image: "", price: "", description: "" });
+    setForm({ id: -1, title: "", image: "", price: "", description: "" });
   };
 
-  const handleEditProduct = (product: Product, index: number) => {
+  const handleEditProduct = (product: ProductType, index: number) => {
     setForm(product);
     setEditingIndex(index);
   };
@@ -51,7 +47,7 @@ export default function AddProductWrapper() {
     setProducts(updatedProducts);
 
     setEditingIndex(null);
-    setForm({ title: "", image: "", price: "", description: "" });
+    setForm({ id: -1, title: "", image: "", price: "", description: "" });
   };
 
   const handleDelete = (index: number) => {
@@ -59,7 +55,7 @@ export default function AddProductWrapper() {
     // Reset form if deleting the one being edited
     if (editingIndex === index) {
       setEditingIndex(null);
-      setForm({ title: "", image: "", price: "", description: "" });
+      setForm({ id: -1, title: "", image: "", price: "", description: "" });
     }
   };
 
