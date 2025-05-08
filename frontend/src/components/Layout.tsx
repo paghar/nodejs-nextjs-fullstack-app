@@ -1,6 +1,6 @@
 import Image from "next/image";
+import Link from "next/link";
 import { ReactNode } from "react";
-
 import Cart from "./Cart";
 
 interface LayoutProps {
@@ -46,6 +46,16 @@ export default function Layout({
           )}
         </div>
       </header>
+
+      {/* Menu */}
+      <nav className="bg-[#e6005c] text-white px-6 py-3 shadow flex gap-6">
+        <Link href="/" className="hover:underline">
+          Product Catalog
+        </Link>
+        <Link href="/AdminPage" className="hover:underline">
+          Admin Panel
+        </Link>
+      </nav>
 
       {/* Main Content */}
       <main className="flex-1">{children}</main>
