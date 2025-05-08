@@ -1,3 +1,6 @@
+
+import AddProductWrapper from "@containers/AddProductWrapper";
+
 export default function AdminPage() {
-  return(<div>Fatemeh</div>);
+  return(<AddProductWrapper/>);
 }
