@@ -1,4 +1,3 @@
-import React from "react";
 import Button from "@components/ui/Button";
 import { cartText } from "@data/constants/cart";
 import { CartProps } from "@data/interface/cart";

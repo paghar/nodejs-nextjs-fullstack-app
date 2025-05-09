@@ -1,13 +1,7 @@
 import Image from "next/image";
 import Button from "@components/ui/Button";
-import { ProductType } from "@data/interface/product";
+import { ProductTableProps } from "@data/interface/product";
 import { productTableBtn, productTableHeader } from "@data/constants/product";
-
-interface ProductTableProps {
-  products: ProductType[];
-  onDelete: (index: number) => void;
-  onEdit: (product: ProductType, index: number) => void;
-}
 
 export default function ProductTable({
   products,

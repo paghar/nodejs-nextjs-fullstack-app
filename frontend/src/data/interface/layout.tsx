@@ -22,4 +22,6 @@ export interface LayoutProps {
   handleRemoveItem: (id: number) => void;
   isOpenCart: () => void;
   showCart: boolean;
+  isOpenLoginModal: () => void;
+  showLoginModal: boolean;
 }

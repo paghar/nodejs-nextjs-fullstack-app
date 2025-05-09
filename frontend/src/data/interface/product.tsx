@@ -26,3 +26,20 @@ export interface PaginationProps {
   totalPages: number;
   onPageChange: (page: number) => void;
 }
+
+export interface AddProductProps {
+  products: ProductType[];
+  form: ProductType;
+  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onAdd: () => void;
+  onUpdate: () => void;
+  onEdit: (product: ProductType, index: number) => void;
+  onDelete: (index: number) => void;
+  isEditing: boolean;
+}
+
+export interface ProductTableProps {
+  products: ProductType[];
+  onDelete: (index: number) => void;
+  onEdit: (product: ProductType, index: number) => void;
+}

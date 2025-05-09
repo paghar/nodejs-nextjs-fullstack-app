@@ -5,9 +5,14 @@ import { ReactNode, useState } from "react";
 export default function LayoutWrapper({ children }: { children: ReactNode }) {
     
   const [showCart, setShowCart] = useState(false);
+  const [showLoginModal, setShowLoginModal] = useState(false);
 
   const isOpenCart = () => {  
     setShowCart((prev) => !prev);
+  };
+
+  const isOpenLoginModal = () => {
+    setShowLoginModal((prev) => !prev);
   };
 
   const handleCheckout = () => {
@@ -37,6 +42,8 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
       handleCheckout={handleCheckout}
       calculateTotal={calculateTotal}
       isOpenCart={isOpenCart}
+      isOpenLoginModal={isOpenLoginModal}
+      showLoginModal={showLoginModal}
     >
       {children}
     </Layout>

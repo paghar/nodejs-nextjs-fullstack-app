@@ -1,15 +1,17 @@
 import Link from "next/link";
-import { ReactNode } from "react";
+import { MouseEventHandler, ReactNode } from "react";
 
 interface LinkProps {
   href: string;
   children: ReactNode;
   className?: string;
+  onClick?: MouseEventHandler<HTMLAnchorElement>;
 }
 
-export default function LinkComponent({ href, children, className = "" }: LinkProps) {
+export default function LinkComponent({ href, children, className = "", onClick }: LinkProps) {
   return (
     <Link
+      onClick={onClick}
       href={href}
       className={`hover:underline font-medium ${className}`}
     >

@@ -1,18 +1,7 @@
 import TextBox from "@components/ui/TextBox";
 import Button from "@components/ui/Button";
 import ProductTable from "./ProductTable";
-import { ProductType } from "../../data/interface/product";
-
-interface AddProductProps {
-  products: ProductType[];
-  form: ProductType;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onAdd: () => void;
-  onUpdate: () => void;
-  onEdit: (product: ProductType, index: number) => void;
-  onDelete: (index: number) => void;
-  isEditing: boolean;
-}
+import { AddProductProps } from "../../data/interface/product";
 
 export default function AddProduct({
   products,
