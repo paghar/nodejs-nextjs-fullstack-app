@@ -11,7 +11,7 @@ const Cart: React.FC<CartProps> = ({
   const isEmpty = items.length === 0;
 
   return (
-    <div className="absolute right-0 mt-2 w-80 bg-white border rounded-lg shadow-xl z-10 p-4">
+    <div className="absolute right-0 mt-12 w-80 bg-white border rounded-lg shadow-xl z-10 p-4">
       <h4 className="text-lg font-semibold text-[#e6005c] mb-3">
         {cartText.cartItems}
       </h4>
