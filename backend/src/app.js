@@ -1,11 +1,10 @@
 const express = require('express');
 const app = express();
 
-// Middlewares
-app.use(express.json());
+const productRoutes = require('./routes/productRoutes');
+require('./models/Product'); // Syncs DB model
 
-// Routes
-const helloRoutes = require('./routes/helloRoutes');
-app.use('/api', helloRoutes);
+app.use(express.json());
+app.use('/api/products', productRoutes);
 
 module.exports = app;
