@@ -22,6 +22,7 @@ export default function AddProductWrapper() {
   });
 
   const [editingIndex, setEditingIndex] = useState<number | null>(null);
+  const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -59,6 +60,14 @@ export default function AddProductWrapper() {
     }
   };
 
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      setSelectedFile(file);      
+    }
+  };
+  
+
   return (
     <AddProduct
       products={products}
@@ -69,6 +78,7 @@ export default function AddProductWrapper() {
       onEdit={handleEditProduct}
       onDelete={handleDelete}
       isEditing={editingIndex !== null}
+      handleFileChange={handleFileChange}
     />
   );
 }

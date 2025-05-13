@@ -30,12 +30,13 @@ export interface PaginationProps {
 export interface AddProductProps {
   products: ProductType[];
   form: ProductType;
-  onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onChange: () => void;
   onAdd: () => void;
   onUpdate: () => void;
   onEdit: (product: ProductType, index: number) => void;
   onDelete: (index: number) => void;
-  isEditing: boolean;
+  isEditing: boolean;  
+  handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
 export interface ProductTableProps {
