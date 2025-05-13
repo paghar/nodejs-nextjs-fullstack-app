@@ -19,7 +19,7 @@
       "@containers/*": ["./src/containers/*"],
       "@data/*": ["./src/data/*"],     
       "@styles/*": ["./src/styles/*"],
-      // "@utils/*": ["./src/utils/*"],
+      "@utils/*": ["./src/utils/*"],
       // "@hooks/*": ["./src/hooks/*"]
     }
   },

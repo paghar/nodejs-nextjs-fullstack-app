@@ -1,20 +1,17 @@
 import { useState } from "react";
 import AddProduct from "@components/adminPanel/AddProduct";
 import { ProductType } from "@data/interface/product";
+import {
+  createProductAPI,
+  updateProductAPI,
+  deleteProductAPI,
+} from "@utils/api/productApi";
 
-export default function AddProductWrapper() {
-  const [products, setProducts] = useState<ProductType[]>([
-    {
-      title: "Sample Product",
-      image: "https://loremflickr.com/320/240/dog",
-      price: "19.99",
-      description: "This is a sample product.",
-      id: 0
-    },
-  ]);
+export default function AddProductWrapper({ initialProducts }: { initialProducts: ProductType[] }) {
+  const [products, setProducts] = useState<ProductType[]>(initialProducts);
 
   const [form, setForm] = useState<ProductType>({
-    id: -1, // Default id value
+    id: -1,
     title: "",
     image: "",
     price: "",
@@ -29,9 +26,18 @@ export default function AddProductWrapper() {
     setForm((prev) => ({ ...prev, [name]: value }));
   };
 
-  const handleAddProduct = () => {
+  const handleAddProduct = async () => {
     if (!form.title || !form.image || !form.price || !form.description) return;
-    setProducts((prev) => [...prev, { ...form }]);
+
+    const newProduct = await createProductAPI({
+      title: form.title,
+      image_url: form.image,
+      price: parseFloat(form.price),
+      description: form.description,
+      stock_quantity: 10, // or dynamic
+    });
+
+    setProducts((prev) => [...prev, newProduct]);
     setForm({ id: -1, title: "", image: "", price: "", description: "" });
   };
 
@@ -40,20 +46,27 @@ export default function AddProductWrapper() {
     setEditingIndex(index);
   };
 
-  const handleUpdateProduct = () => {
+  const handleUpdateProduct = async () => {
     if (editingIndex === null) return;
 
+    const updated = await updateProductAPI(form.id, {
+      ...form,
+      image_url: form.image,
+      price: parseFloat(form.price),
+    });
+
     const updatedProducts = [...products];
-    updatedProducts[editingIndex] = form;
+    updatedProducts[editingIndex] = updated;
     setProducts(updatedProducts);
 
     setEditingIndex(null);
     setForm({ id: -1, title: "", image: "", price: "", description: "" });
   };
 
-  const handleDelete = (index: number) => {
+  const handleDelete = async (index: number) => {
+    const id = products[index].id;
+    await deleteProductAPI(id);
     setProducts((prev) => prev.filter((_, i) => i !== index));
-    // Reset form if deleting the one being edited
     if (editingIndex === index) {
       setEditingIndex(null);
       setForm({ id: -1, title: "", image: "", price: "", description: "" });
@@ -62,11 +75,8 @@ export default function AddProductWrapper() {
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
-    if (file) {
-      setSelectedFile(file);      
-    }
+    if (file) setSelectedFile(file);
   };
-  
 
   return (
     <AddProduct
