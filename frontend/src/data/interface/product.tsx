@@ -1,9 +1,9 @@
 export interface ProductType {
   id: number;
-  title: string;
-  image: string;
+  name: string;  
   price: string;
   description: string;
+  image:string
 }
 
 export interface ProductPageProps {
@@ -30,7 +30,7 @@ export interface PaginationProps {
 export interface AddProductProps {
   products: ProductType[];
   form: ProductType;
-  onChange: () => void;
+  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
   onAdd: () => void;
   onUpdate: () => void;
   onEdit: (product: ProductType, index: number) => void;

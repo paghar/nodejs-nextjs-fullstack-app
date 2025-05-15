@@ -27,7 +27,7 @@ export default function AddProduct({
         <TextBox
           type="text"
           name="title"
-          value={form.title}
+          value={form.name}
           onChange={onChange}
           placeholder="Product Title"
         />       

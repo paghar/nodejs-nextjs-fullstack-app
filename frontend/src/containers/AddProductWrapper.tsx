@@ -1,93 +1,109 @@
 import { useState } from "react";
 import AddProduct from "@components/adminPanel/AddProduct";
-import { ProductType } from "@data/interface/product";
 import {
   createProductAPI,
   updateProductAPI,
   deleteProductAPI,
 } from "@utils/api/productApi";
+import { ProductType } from "@data/interface/product";
 
-export default function AddProductWrapper({ initialProducts }: { initialProducts: ProductType[] }) {
-  const [products, setProducts] = useState<ProductType[]>(initialProducts);
+interface Props {
+  initialProducts: ProductType[];
+}
 
-  const [form, setForm] = useState<ProductType>({
-    id: -1,
-    title: "",
-    image: "",
+export default function AddProductWrapper({ initialProducts }: Props) {
+  const [products, setProducts] = useState(initialProducts);
+  const [form, setForm] = useState({
+    id: 0,
+    name: "",
     price: "",
+    image:"",
     description: "",
   });
+  const [file, setFile] = useState<File | null>(null);
+  const [isEditing, setIsEditing] = useState(false);
 
-  const [editingIndex, setEditingIndex] = useState<number | null>(null);
-  const [selectedFile, setSelectedFile] = useState<File | null>(null);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setForm((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleAddProduct = async () => {
-    if (!form.title || !form.image || !form.price || !form.description) return;
-
-    const newProduct = await createProductAPI({
-      title: form.title,
-      image_url: form.image,
-      price: parseFloat(form.price),
-      description: form.description,
-      stock_quantity: 10, // or dynamic
+  const resetForm = () => {
+    setForm({
+      id: 0,
+      name: "",
+      image:"",
+      price: "",
+      description: "",
     });
-
-    setProducts((prev) => [...prev, newProduct]);
-    setForm({ id: -1, title: "", image: "", price: "", description: "" });
+    setFile(null);
+    setIsEditing(false);
   };
 
-  const handleEditProduct = (product: ProductType, index: number) => {
-    setForm(product);
-    setEditingIndex(index);
-  };
-
-  const handleUpdateProduct = async () => {
-    if (editingIndex === null) return;
-
-    const updated = await updateProductAPI(form.id, {
-      ...form,
-      image_url: form.image,
-      price: parseFloat(form.price),
-    });
-
-    const updatedProducts = [...products];
-    updatedProducts[editingIndex] = updated;
-    setProducts(updatedProducts);
-
-    setEditingIndex(null);
-    setForm({ id: -1, title: "", image: "", price: "", description: "" });
-  };
-
-  const handleDelete = async (index: number) => {
-    const id = products[index].id;
-    await deleteProductAPI(id);
-    setProducts((prev) => prev.filter((_, i) => i !== index));
-    if (editingIndex === index) {
-      setEditingIndex(null);
-      setForm({ id: -1, title: "", image: "", price: "", description: "" });
-    }
+  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file) setSelectedFile(file);
+    setFile(e.target.files?.[0] || null);
   };
+
+  const onAdd = async () => {
+    if (!file) {
+      alert("Please upload an image.");
+      return;
+    }
+
+    const formData = new FormData();
+    formData.append("name", form.name);
+    formData.append("price", form.price);
+    formData.append("description", form.description);
+    formData.append("image", file);
+
+    const newProduct = await createProductAPI(formData);
+    setProducts([...products, newProduct]);
+    resetForm();
+  };
+
+  const onUpdate = async () => {
+    if (!form.id) return;
+
+    const formData = new FormData();
+    formData.append("name", form.name);
+    formData.append("price", form.price);
+    formData.append("description", form.description);
+    if (file) {
+      formData.append("image", file); // optional for updates
+    }
+
+    const updatedProduct = await updateProductAPI(form.id, formData);
+    setProducts(products.map((p) => (p.id === updatedProduct.id ? updatedProduct : p)));
+    resetForm();
+  };
+
+  const onEdit = (product: ProductType) => {
+    setForm({
+      id: product.id,
+      name: product.name,
+      price: product.price.toString(),
+      description: product.description || "",
+      image: product.image || "",
+    });
+    setIsEditing(true);
+  };
+
+  const onDelete = async (id: number) => {
+    await deleteProductAPI(id);
+    setProducts(products.filter((p) => p.id !== id));
+  };
+
+  
 
   return (
     <AddProduct
       products={products}
       form={form}
-      onChange={handleChange}
-      onAdd={handleAddProduct}
-      onUpdate={handleUpdateProduct}
-      onEdit={handleEditProduct}
-      onDelete={handleDelete}
-      isEditing={editingIndex !== null}
+      onChange={onChange}
+      onAdd={onAdd}
+      onUpdate={onUpdate}
+      onEdit={onEdit}
+      onDelete={onDelete}
+      isEditing={isEditing}
       handleFileChange={handleFileChange}
     />
   );

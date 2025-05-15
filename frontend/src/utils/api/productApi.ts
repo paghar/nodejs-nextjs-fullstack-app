@@ -9,7 +9,7 @@ export const fetchProducts = async (): Promise<ProductType[]> => {
 };
 
 export const createProductAPI = async (data: any) => {
-  const res = await axios.post(API_BASE, data);
+  const res = await axios.post(API_BASE, data);  
   return res.data;
 };
 

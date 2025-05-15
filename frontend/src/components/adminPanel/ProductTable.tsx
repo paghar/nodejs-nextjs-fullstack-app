@@ -35,17 +35,17 @@ export default function ProductTable({
           {products.map((product, index) => (
             <tr key={index} className="text-center">
               <td className="py-2 px-4 border border-gray-300">
-                {product.title}
+                {product.name}
               </td>
               <td className="py-2 px-4 border border-gray-300">
                 <div className="mx-auto h-10 w-10 relative">
-                  <Image
+                  {/* <Image
                     src={product.image}
                     alt={product.title}
                     layout="fill"
                     objectFit="cover"
                     className="rounded"
-                  />
+                  /> */}
                 </div>
               </td>
               <td className="py-2 px-4 border border-gray-300">
@@ -58,14 +58,14 @@ export default function ProductTable({
                 <Button
                   variant="outline"
                   size="sm"
-                  onClick={() => onEdit(product, index)}
+                  onClick={() => onEdit(product, product.id)}
                 >
                   {productTableBtn.btnEdit}
                 </Button>
                 <Button
                   variant="destructive"
                   size="sm"
-                  onClick={() => onDelete(index)}
+                  onClick={() => onDelete(product.id)}
                 >
                   {productTableBtn.btnDelete}
                 </Button>

@@ -11,13 +11,13 @@ export default function ProductGrid({ products }: ProductGridProps) {
           key={product.id}
           className="flex flex-col justify-between border border-gray-300 rounded-lg shadow-md p-4"
         >
-          <Image
+          {/* <Image
             src={product.image}
             alt={product.title}
             width={300}
             height={160}
             className="w-full h-40 object-cover mb-4 rounded"
-          />
+          /> */}
 
           <h2 className="text-xl font-semibold text-[#e6005c] mb-1">
             {product.title}
