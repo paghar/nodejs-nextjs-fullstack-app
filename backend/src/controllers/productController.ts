@@ -3,12 +3,27 @@ import Product from '../models/Product';
 
 export const createProduct = async (req: Request, res: Response): Promise<void> => {
   try {
-    const { name, price, description } = req.body;
-    const product = await Product.create({ name, price, description });
-    res.status(201).json(product);
+    const { name, description, price } = req.body;
+    const file = req.file;
+
+    if (!file) {
+      res.status(400).json({ message: 'Image file is required' });
+      return;
+    }
+
+    const imagePath = `uploads/${file.filename}`;
+
+    const product = await Product.create({
+      name,
+      description,
+      price,
+      image: imagePath, // store the file path in the database
+    });
+
+    res.status(201).json(product); // return the created product
   } catch (err) {
     console.error('Error creating product:', err);
-    res.status(500).json({ error: 'Internal Server Error' });
+    res.status(500).json({ message: 'Internal server error' });
   }
 };
 
