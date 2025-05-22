@@ -3,10 +3,12 @@ import Button from "@components/ui/Button";
 import ProductTable from "./ProductTable";
 import { AddProductProps } from "../../data/interface/product";
 import FileUpload from "@components/ui/FileUpload";
+import { API_BASE_URL } from "@data/constants/public";
 
 export default function AddProduct({
   products,
   form,
+  file,
   onChange,
   onAdd,
   onUpdate,
@@ -26,7 +28,7 @@ export default function AddProduct({
       <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-8">
         <TextBox
           type="text"
-          name="title"
+          name="name"
           value={form.name}
           onChange={onChange}
           placeholder="Product Title"
@@ -50,6 +52,9 @@ export default function AddProduct({
           label="Upload Image"
           accept="image/*"
           onChange={handleFileChange}
+          imageUrl={form.image_url ? `${API_BASE_URL}${form.image_url}` : null}
+          name={`image_${form.name}`}
+          file={file}
         />  
         <div className="col-span-1 md:col-span-2">
           {isEditing ? (

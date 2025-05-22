@@ -2,6 +2,7 @@ import Image from "next/image";
 import Button from "@components/ui/Button";
 import { ProductTableProps } from "@data/interface/product";
 import { productTableBtn, productTableHeader } from "@data/constants/product";
+import { API_BASE_URL } from "@data/constants/public";
 
 export default function ProductTable({
   products,
@@ -30,7 +31,6 @@ export default function ProductTable({
             </th>
           </tr>
         </thead>
-
         <tbody>
           {products.map((product, index) => (
             <tr key={index} className="text-center">
@@ -39,13 +39,13 @@ export default function ProductTable({
               </td>
               <td className="py-2 px-4 border border-gray-300">
                 <div className="mx-auto h-10 w-10 relative">
-                  {/* <Image
-                    src={product.image}
-                    alt={product.title}
+                  <Image
+                    src={`${API_BASE_URL}${product.image_url}`}
+                    alt={product.image}
                     layout="fill"
                     objectFit="cover"
                     className="rounded"
-                  /> */}
+                  />
                 </div>
               </td>
               <td className="py-2 px-4 border border-gray-300">

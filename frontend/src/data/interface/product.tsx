@@ -4,6 +4,7 @@ export interface ProductType {
   price: string;
   description: string;
   image:string
+  image_url: string;
 }
 
 export interface ProductPageProps {

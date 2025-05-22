@@ -17,7 +17,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
       name,
       description,
       price,
-      image: imagePath, // store the file path in the database
+      image_url: imagePath, // store the file path in the database
     });
 
     res.status(201).json(product); // return the created product
@@ -30,6 +30,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
 export const getAllProducts = async (_req: Request, res: Response): Promise<void> => {
   try {
     const products = await Product.findAll();
+    console.log('Fetched products:', products);
     res.json(products);
   } catch (err) {
     console.error('Error fetching products:', err);
@@ -55,6 +56,7 @@ export const getProductById = async (req: Request, res: Response): Promise<void>
 export const updateProduct = async (req: Request, res: Response): Promise<void> => {
   const { id } = req.params;
   const { name, price, description,image_url } = req.body;
+   const file = req.file;
 
   try {
     const product = await Product.findByPk(id);
@@ -64,8 +66,10 @@ export const updateProduct = async (req: Request, res: Response): Promise<void> 
       return;
     }
 
+    const imagePath = file ? `uploads/${file.filename}` : image_url;
+
     // Update the product fields
-    await product.update({ name, price, description,  image_url });
+    await product.update({ name, price, description, image_url: imagePath });
 
     res.status(200).json(product);
   } catch (err) {

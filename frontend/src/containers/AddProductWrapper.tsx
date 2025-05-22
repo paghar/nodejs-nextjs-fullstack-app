@@ -16,9 +16,9 @@ export default function AddProductWrapper({ initialProducts }: Props) {
   const [form, setForm] = useState({
     id: 0,
     name: "",
-    price: "",
-    image:"",
+    price: "",  
     description: "",
+    image_url:"",
   });
   const [file, setFile] = useState<File | null>(null);
   const [isEditing, setIsEditing] = useState(false);
@@ -26,10 +26,10 @@ export default function AddProductWrapper({ initialProducts }: Props) {
   const resetForm = () => {
     setForm({
       id: 0,
-      name: "",
-      image:"",
+      name: "",     
       price: "",
       description: "",
+      image_url:"",
     });
     setFile(null);
     setIsEditing(false);
@@ -44,6 +44,7 @@ export default function AddProductWrapper({ initialProducts }: Props) {
   };
 
   const onAdd = async () => {
+    //should be edited with validation
     if (!file) {
       alert("Please upload an image.");
       return;
@@ -61,6 +62,7 @@ export default function AddProductWrapper({ initialProducts }: Props) {
   };
 
   const onUpdate = async () => {
+  
     if (!form.id) return;
 
     const formData = new FormData();
@@ -68,7 +70,7 @@ export default function AddProductWrapper({ initialProducts }: Props) {
     formData.append("price", form.price);
     formData.append("description", form.description);
     if (file) {
-      formData.append("image", file); // optional for updates
+      formData.append("image", file);
     }
 
     const updatedProduct = await updateProductAPI(form.id, formData);
@@ -81,9 +83,10 @@ export default function AddProductWrapper({ initialProducts }: Props) {
       id: product.id,
       name: product.name,
       price: product.price.toString(),
-      description: product.description || "",
-      image: product.image || "",
-    });
+      description: product.description || "",   
+      image_url: product.image_url || "",  
+    });   
+    setFile(null); 
     setIsEditing(true);
   };
 
@@ -98,6 +101,7 @@ export default function AddProductWrapper({ initialProducts }: Props) {
     <AddProduct
       products={products}
       form={form}
+      file={file}
       onChange={onChange}
       onAdd={onAdd}
       onUpdate={onUpdate}
