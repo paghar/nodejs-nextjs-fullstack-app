@@ -2,7 +2,8 @@ import TextBox from "@components/ui/TextBox";
 import SelectBox from "@components/ui/SelectBox";
 import ProductGrid from "@components/product/ProductGrid";
 import Pagination from "@components/product/Pagination";
-import { ProductPageProps } from "@data/interface/product";
+import { ProductPageProps, SortOption } from "@data/interface/product";
+import { productCatalog } from "@data/constants/product";
 
 export default function ProductPage({
   products,
@@ -13,10 +14,11 @@ export default function ProductPage({
   onSearch,
   onSort,
   onPageChange,
+  loading,
 }: ProductPageProps) {
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-[#e6005c]">Product Catalog</h1>
+      <h1 className="text-3xl font-bold mb-6 text-[#e6005c]">{productCatalog.title}</h1>
 
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
         <TextBox
@@ -25,23 +27,29 @@ export default function ProductPage({
             onSearch(e.target.value);
             onPageChange(1);
           }}
-          placeholder="Search products..."
+          placeholder={productCatalog.searchPlaceholder}
           className="w-full md:w-1/3"
         />
         <SelectBox
           value={sort}
-          onChange={(e) => onSort(e.target.value)}
-          options={[
-            { label: "Sort by Title", value: "title" },
-            { label: "Sort by Price (Low to High)", value: "price-asc" },
-            { label: "Sort by Price (High to Low)", value: "price-desc" },
-          ]}
+          onChange={(e) => onSort(e.target.value as SortOption)}
+          options={productCatalog.sortOptions}
           className="w-full md:w-1/4"
         />
       </div>
 
-      <ProductGrid products={products} />
-      <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={onPageChange} />
+      {loading ? (
+        <div className="text-center text-lg text-gray-500 py-20">{productCatalog.loading}</div>
+      ) : (
+        <>         
+          <ProductGrid products={products} />
+          <Pagination
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onPageChange={onPageChange}
+          />
+        </>
+      )}
     </div>
   );
 }

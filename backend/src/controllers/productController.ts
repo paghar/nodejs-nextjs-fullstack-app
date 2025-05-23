@@ -1,5 +1,6 @@
 import { Request, Response } from 'express';
 import Product from '../models/Product';
+import { Op } from 'sequelize';
 
 export const createProduct = async (req: Request, res: Response): Promise<void> => {
   try {
@@ -92,5 +93,48 @@ export const deleteProduct = async (req: Request, res: Response): Promise<void> 
   } catch (err) {
     console.error('Error deleting product:', err);
     res.status(500).json({ error: 'Failed to delete product' });
+  }
+};
+
+export const getPaginatedProducts = async (req: Request, res: Response) => {
+  try {
+    const search = (req.query.search as string) || '';
+    const sort = (req.query.sort as string) || '';
+    const page = parseInt((req.query.page as string) || '1', 10);
+    const limit = parseInt((req.query.limit as string) || '10', 10);
+    const offset = (page - 1) * limit;
+
+    const whereCondition = search
+      ? {
+          [Op.or]: [
+            { name: { [Op.iLike]: `%${search}%` } },
+            { description: { [Op.iLike]: `%${search}%` } },
+          ],
+        }
+      : {};
+
+    const orderCondition: [string, 'ASC' | 'DESC'][] =
+      sort === 'price_asc'
+        ? [['price', 'ASC']]
+        : sort === 'price_desc'
+        ? [['price', 'DESC']]
+        : [];
+
+    const { rows: products, count: total } = await Product.findAndCountAll({
+      where: whereCondition,
+      order: orderCondition,
+      offset,
+      limit,
+    });
+
+    res.json({
+      products,
+      total,
+      page,
+      limit,
+    });
+  } catch (error) {
+    console.error('Error fetching products:', error);
+    res.status(500).json({ message: 'Internal server error' });
   }
 };

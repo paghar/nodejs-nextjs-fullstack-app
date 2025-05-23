@@ -2,6 +2,7 @@ import Image from "next/image";
 import Button from "@components/ui/Button";
 import { ProductGridProps } from "@data/interface/product";
 import { productGridBtn } from "@data/constants/product";
+import { API_BASE_URL } from "@data/constants/public";
 
 export default function ProductGrid({ products }: ProductGridProps) {
   return (
@@ -11,16 +12,16 @@ export default function ProductGrid({ products }: ProductGridProps) {
           key={product.id}
           className="flex flex-col justify-between border border-gray-300 rounded-lg shadow-md p-4"
         >
-          {/* <Image
-            src={product.image}
-            alt={product.title}
+          <Image
+            src={`${API_BASE_URL}${product.image_url}`}
+            alt={product.name}
             width={300}
             height={160}
             className="w-full h-40 object-cover mb-4 rounded"
-          /> */}
+          />
 
           <h2 className="text-xl font-semibold text-[#e6005c] mb-1">
-            {product.title}
+            {product.name}
           </h2>
 
           <p className="text-gray-700 mb-2">${product.price}</p>
