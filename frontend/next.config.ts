@@ -1,12 +1,17 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  /* config options here */
   reactStrictMode: true,
- 
-  //should be deleted when Backend API is ready
+  // it should be changed when backend is going on server
   images: {
-    remotePatterns: [new URL("https://loremflickr.com/**")],
+    remotePatterns: [
+      {
+        protocol: "http",
+        hostname: "localhost",
+        port: "3001",
+        pathname: "/uploads/**",
+      },
+    ],
   },
 };
 

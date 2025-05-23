@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ProductType } from "@data/interface/product";
+import { API_BASE } from "@data/constants/public";
 
-const API_BASE = "http://localhost:3001/api/products";
 
 export const fetchProducts = async (): Promise<ProductType[]> => {
   const res = await axios.get(API_BASE);

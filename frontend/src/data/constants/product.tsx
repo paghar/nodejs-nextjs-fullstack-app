@@ -1,3 +1,8 @@
+export const productBtn={
+  btnAddProduct : "Add Product",
+  btnEditProduct : "Edit Product",
+};
+
 export const productGridBtn ={
   btnDetails: "Details",
   btnAddToCart: "Add to Cart",
@@ -12,6 +17,7 @@ export const productTableBtn = {
   btnEdit: "Edit",
   btnDelete: "Delete",
 };
+
 export const productTableHeader = {
   title: "Title",
   image: "Image",
