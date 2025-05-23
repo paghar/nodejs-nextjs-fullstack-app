@@ -1,53 +1,46 @@
-import { useState, useEffect, useMemo } from "react";
+import { useEffect, useState } from "react";
 import ProductPage from "@components/product/ProductPage";
+import { fetchPaginatedProducts } from "@utils/api/productApi";
+import { paginatedProducts, SortOption } from "@data/interface/product";
 
-export default function ProductPageWrapper() {
-  const [products, setProducts] = useState<{ id: number; title: string; image: string; price: string; description: string }[]>([]);
+const totalPage = (total: number, limit: number) => {
+  return Math.ceil(total / limit);
+};
+
+export default function ProductPageWrapper( initialData : paginatedProducts) {
+  const [products, setProducts] = useState(initialData.products || []);
+  const [totalPages, setTotalPages] = useState(totalPage(initialData.total,initialData.limit) || 1);
+
   const [search, setSearch] = useState("");
-  const [sort, setSort] = useState("title");
+  const [sort, setSort] = useState<SortOption>(SortOption.PriceAsc);
   const [currentPage, setCurrentPage] = useState(1);
-  const itemsPerPage = 6;
+  const [isLoading, setIsLoading] = useState(false);
 
-  useEffect(() => {
-    const generated = Array.from({ length: 30 }).map((_, i) => ({
-      id: i + 1,
-      title: `Product ${i + 1}`,
-      image: "https://loremflickr.com/320/240/dog",
-      price: (Math.random() * 100 + 10).toFixed(2),
-      description: "This is a sample product description.",
-    }));
-    setProducts(generated);
-  }, []);
+  const limit = 9;
 
-  const filteredAndSorted = useMemo(() => {
-    const result = products.filter((p) =>
-      p.title.toLowerCase().includes(search.toLowerCase())
-    );
+  useEffect(() => {   
+    if (search || sort || currentPage !== 1) {
+      setIsLoading(true);
+      const fetchData = async () => {
+        const data = await fetchPaginatedProducts({
+          search,
+          sort: sort,
+          page: currentPage,
+          limit,
+        });
 
-    switch (sort) {
-    case "price-asc":
-      result.sort((a, b) => parseFloat(a.price) - parseFloat(b.price));
-      break;
-    case "price-desc":
-      result.sort((a, b) => parseFloat(b.price) - parseFloat(a.price));
-      break;
-    case "title":
-    default:
-      result.sort((a, b) => a.title.localeCompare(b.title));
+        setProducts(data.products);
+        setTotalPages(totalPage(data.total,limit));
+        setIsLoading(false);
+      };
+
+      fetchData();
     }
-
-    return result;
-  }, [products, search, sort]);
-
-  const totalPages = Math.ceil(filteredAndSorted.length / itemsPerPage);
-  const paginated = filteredAndSorted.slice(
-    (currentPage - 1) * itemsPerPage,
-    currentPage * itemsPerPage
-  );
+  }, [search, sort, currentPage]);
 
   return (
     <ProductPage
-      products={paginated}
+      products={products}
       search={search}
       sort={sort}
       currentPage={currentPage}
@@ -55,6 +48,7 @@ export default function ProductPageWrapper() {
       onSearch={setSearch}
       onSort={setSort}
       onPageChange={setCurrentPage}
+      loading={isLoading}
     />
   );
 }

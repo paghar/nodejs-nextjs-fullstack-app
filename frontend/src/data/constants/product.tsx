@@ -25,3 +25,14 @@ export const productTableHeader = {
   description: "Description",
   actions: "Actions",
 };
+
+export const productCatalog ={
+  title: "Product Catalog",
+  searchPlaceholder: "Search products...", 
+  sortOptions: [
+    { label: "Sort by Title", value: "title" },
+    { label: "Sort by Price (Low to High)", value: "priceAsc" },
+    { label: "Sort by Price (High to Low)", value: "priceDesc" },
+  ],
+  loading: "Loading products...",
+};

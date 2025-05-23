@@ -6,14 +6,20 @@ export interface ProductType {
   image_url: string;
 }
 
+export enum SortOption {
+  PriceAsc = "price_asc",
+  PriceDesc = "price_desc",
+}
+
 export interface ProductPageProps {
   products: ProductType[];
   search: string;
   sort: string;
   currentPage: number;
   totalPages: number;
+  loading: boolean;
   onSearch: (value: string) => void;
-  onSort: (value: string) => void;
+  onSort: (value: SortOption) => void;
   onPageChange: (page: number) => void;
 }
 
@@ -44,4 +50,18 @@ export interface ProductTableProps {
   products: ProductType[];
   onDelete: (index: number) => void;
   onEdit: (product: ProductType, index: number) => void;
+}
+
+export interface FetchProductParams {
+  search?: string;
+  sort?: SortOption;
+  page?: number;
+  limit?: number;
+}
+
+export interface paginatedProducts {
+  products: ProductType[];
+  total:number;
+  page:number;
+  limit:number;
 }
