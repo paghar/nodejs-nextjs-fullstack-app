@@ -1,9 +1,10 @@
 import TextBox from "@components/ui/TextBox";
 import Button from "@components/ui/Button";
 import ProductTable from "./ProductTable";
-import { AddProductProps } from "../../data/interface/product";
+import { AddProductProps } from "@data/interface/product";
 import FileUpload from "@components/ui/FileUpload";
 import { API_BASE_URL } from "@data/constants/public";
+import { productBtn } from "@data/constants/product";
 
 export default function AddProduct({
   products,
@@ -49,7 +50,7 @@ export default function AddProduct({
           rows={5}
         />
         <FileUpload
-          label="Upload Image"
+          label="product image"
           accept="image/*"
           onChange={handleFileChange}
           imageUrl={form.image_url ? `${API_BASE_URL}${form.image_url}` : null}
@@ -58,9 +59,9 @@ export default function AddProduct({
         />  
         <div className="col-span-1 md:col-span-2">
           {isEditing ? (
-            <Button onClick={onUpdate}>Update Product</Button>
+            <Button onClick={onUpdate}>{productBtn.btnEditProduct}</Button>
           ) : (
-            <Button onClick={onAdd}>Add Product</Button>
+            <Button onClick={onAdd}>{productBtn.btnAddProduct}</Button>
           )}
         </div>
       </div>

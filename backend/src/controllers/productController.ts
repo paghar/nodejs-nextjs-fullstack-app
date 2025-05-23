@@ -29,8 +29,7 @@ export const createProduct = async (req: Request, res: Response): Promise<void> 
 
 export const getAllProducts = async (_req: Request, res: Response): Promise<void> => {
   try {
-    const products = await Product.findAll();
-    console.log('Fetched products:', products);
+    const products = await Product.findAll();   
     res.json(products);
   } catch (err) {
     console.error('Error fetching products:', err);

@@ -11,7 +11,7 @@ interface FileUploadProps {
 }
 
 const FileUpload: React.FC<FileUploadProps> = ({
-  label = "Upload File",
+  label,
   accept = "*",
   onChange,
   name,
@@ -30,18 +30,12 @@ const FileUpload: React.FC<FileUploadProps> = ({
     }
   }, [file]);
 
-  const fileName = file
-    ? file.name
-    : imageUrl
-      ? imageUrl.split("/").pop()
-      : null;
-
   return (
     <div>
       {label && (
         <label
           htmlFor={name || "file-upload"}
-          className="block text-sm font-medium text-gray-700 mb-1"
+          className="block text-sm font-medium text-gray-500 mb-4"
         >
           {label}
         </label>
@@ -62,30 +56,26 @@ const FileUpload: React.FC<FileUploadProps> = ({
       />
       <div className="mt-2">
         {file && previewUrl ? (
-          <div className="flex items-center space-x-2">
-            {/* <span className="text-xs text-gray-600">{file.name}</span> */}
+          <div className="flex items-center space-x-2">           
             <Image
               src={previewUrl}
               alt="Selected"
-              width={60}
-              height={60}
+              width={100}
+              height={100}
               style={{ borderRadius: 4, objectFit: "cover" }}
             />
           </div>
-        ) : imageUrl ? (
-          <div className="flex items-center space-x-2">
-            <span className="text-xs text-gray-600">{fileName}</span>
+        ) : imageUrl && (
+          <div className="flex items-center space-x-2">           
             <Image
               src={imageUrl}
               alt="Current"
-              width={60}
-              height={60}
+              width={100}
+              height={100}
               style={{ borderRadius: 4, objectFit: "cover" }}
             />
           </div>
-        ) : (
-          <span className="text-xs text-gray-400">No file selected</span>
-        )}
+        ) }
       </div>
     </div>
   );

@@ -41,7 +41,7 @@ export default function ProductTable({
                 <div className="mx-auto h-10 w-10 relative">
                   <Image
                     src={`${API_BASE_URL}${product.image_url}`}
-                    alt={product.image}
+                    alt={product.name}
                     layout="fill"
                     objectFit="cover"
                     className="rounded"
@@ -56,6 +56,7 @@ export default function ProductTable({
               </td>
               <td className="py-2 px-4 border border-gray-300 space-x-2">
                 <Button
+                  className="mb-2"
                   variant="outline"
                   size="sm"
                   onClick={() => onEdit(product, product.id)}
