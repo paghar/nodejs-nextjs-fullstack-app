@@ -1,11 +1,20 @@
 import Layout from "@components/layout/Layout";
 import { cartItems } from "@data/constants/cart";
-import { ReactNode, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { useGlobalDispatch } from "@context/global/globalContext";
+import { loadUser } from "@context/global/globalActions";
+
 
 export default function LayoutWrapper({ children }: { children: ReactNode }) {
     
   const [showCart, setShowCart] = useState(false);
   const [showLoginModal, setShowLoginModal] = useState(false);
+  const dispatch = useGlobalDispatch();
+
+  useEffect(() => {
+    loadUser(dispatch); 
+  }, [dispatch]);
+
 
   const isOpenCart = () => {  
     setShowCart((prev) => !prev);
