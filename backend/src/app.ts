@@ -5,10 +5,15 @@ import csrf from 'csurf';
 import cors from 'cors'; 
 import productRoutes from './routes/productRoutes';
 import path from 'path';
+import authRoutes from './routes/authRoutes';
 
 const app: Application = express();
 
-app.use(cors()); 
+
+app.use(cors({
+  origin: 'http://localhost:3000', // Your Next.js frontend URL
+  credentials: true, // Allow cookies and headers
+}));
 app.use(express.json());
 app.use(cookieParser());
 
@@ -33,5 +38,6 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Routes
 app.use('/api/products', productRoutes);
+app.use('/api/auth', authRoutes); 
 
 export default app;

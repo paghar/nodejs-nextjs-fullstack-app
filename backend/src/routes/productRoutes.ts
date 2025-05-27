@@ -8,8 +8,8 @@ import {
   deleteProduct,
   getPaginatedProducts,
 } from '../controllers/productController';
-import { requireAuth } from 'middlewares/authMiddleware';
-import { requireAdmin } from 'middlewares/roleMiddleware';
+import { requireAuth } from '../middlewares/authMiddleware';
+import { requireAdmin } from '../middlewares/roleMiddleware';
 
 const router = Router();
 
