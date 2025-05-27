@@ -1,14 +1,13 @@
 import Layout from "@components/layout/Layout";
 import { cartItems } from "@data/constants/cart";
-import { ReactNode, useEffect, useState } from "react";
-import { useGlobalDispatch } from "@context/global/globalContext";
-import { loadUser } from "@context/global/globalActions";
+import { ReactNode, useEffect } from "react";
+import { useGlobalDispatch,useGlobalState } from "@context/global/globalContext";
+import { loadUser,toggleLoginModal,toggleCartModal } from "@context/global/globalActions";
 
 
 export default function LayoutWrapper({ children }: { children: ReactNode }) {
-    
-  const [showCart, setShowCart] = useState(false);
-  const [showLoginModal, setShowLoginModal] = useState(false);
+   
+  const { showLoginModal,showCart }= useGlobalState();
   const dispatch = useGlobalDispatch();
 
   useEffect(() => {
@@ -17,11 +16,11 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
 
 
   const isOpenCart = () => {  
-    setShowCart((prev) => !prev);
+    toggleCartModal(dispatch);    
   };
 
   const isOpenLoginModal = () => {
-    setShowLoginModal((prev) => !prev);
+    toggleLoginModal(dispatch);  
   };
 
   const handleCheckout = () => {

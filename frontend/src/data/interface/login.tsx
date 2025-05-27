@@ -13,3 +13,16 @@ export interface ForgotPasswordFormProps {
   email: string;
   setEmail: (value: string) => void;
 }
+
+export interface FormValues {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface RegisterFormProps {
+  onSubmit: (
+    data: FormValues,
+    setError: (name: keyof FormValues, error: { message: string }) => void
+  ) => void | Promise<void>;
+}

@@ -30,3 +30,13 @@ export const logout = async (dispatch: Dispatch<Action>) => {
     dispatch({ type: "LOGOUT_USER" });
   }
 };
+
+// Toggle login modal visibility
+export const toggleLoginModal = (dispatch: Dispatch<Action>) => {
+  dispatch({ type: "TOGGLE_LOGIN_MODAL" });
+};
+
+// Toggle cart modal visibility
+export const toggleCartModal = (dispatch: Dispatch<Action>) => {
+  dispatch({ type: "TOGGLE_CART_MODAL" });
+};
