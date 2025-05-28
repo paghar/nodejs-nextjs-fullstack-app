@@ -9,10 +9,10 @@ import { useRouter } from "next/navigation";
 // ─── Internal Utilities & Context ─────────────────────────────────────────
 import { getCsrfToken, registerUser } from "@utils/api/AuthApi";
 import { useGlobalDispatch } from "@context/global/globalContext";
-import { toggleLoginModal } from "@context/global/globalActions";
 
 // ─── Types ────────────────────────────────────────────────────────────────
 import { FormValues } from "@data/interface/login";
+import { setCurrentUser } from "@context/global/globalActions";
 
 // ─── Component ────────────────────────────────────────────────────────────
 export default function Register() {
@@ -33,16 +33,9 @@ export default function Register() {
     const result = await registerUser(data, csrfToken);
 
     if (result.success) {
-      dispatch({
-        type: "SET_USER",
-        payload: {
-          name: data.name,
-          email: data.email,
-        },
-      });
-
-      toggleLoginModal(dispatch);
+      setCurrentUser(dispatch,result.user);        
       router.push("/");
+      
     } else {
       setError("name", {
         message: result.message || "Registration failed",

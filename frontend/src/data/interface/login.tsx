@@ -26,3 +26,8 @@ export interface RegisterFormProps {
     setError: (name: keyof FormValues, error: { message: string }) => void
   ) => void | Promise<void>;
 }
+
+export interface User { 
+  name: string;
+  email: string;
+}
