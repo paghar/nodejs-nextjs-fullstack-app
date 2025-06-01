@@ -1,49 +1,35 @@
 "use client";
 
-import React, { useState } from "react";
+// ─── External Dependencies ───────────────────────────────
+import React from "react";
+import { useForm } from "react-hook-form";
+
+// ─── Components ──────────────────────────────────────────
 import Button from "@components/ui/Button";
 import TextBox from "@components/ui/TextBox";
 import LinkComponent from "@components/ui/LinkComponent";
-import { loginHeader, loginBtn, noAccount } from "@data/constants/login";
-import { loginUser, getCsrfToken } from "@utils/api/AuthApi";
 
+// ─── Constants ───────────────────────────────────────────
+import { loginHeader, loginBtn, noAccount } from "@data/constants/login";
+
+// ─── Types ───────────────────────────────────────────────
 interface LoginModalProps {
   onClose: () => void;
+  onSubmit: (data: { email: string; password: string }) => void;
+  apiError: string | null;
 }
 
-export default function LoginModal({ onClose }: LoginModalProps) {
-  const [form, setForm] = useState({ email: "", password: "" });
-  const [error, setError] = useState("");
-  const [loading, setLoading] = useState(false);
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
-  };
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    setLoading(true);
-    setError("");
-
-    try {
-      const csrfToken = await getCsrfToken();
-      if (!csrfToken) {
-        setError("CSRF token could not be fetched");
-        return;
-      }
-
-      const result = await loginUser(form, csrfToken);
-      if (result.success) {
-        onClose(); // close modal on success
-      } else {
-        setError(result.message);
-      }
-    } catch {
-      setError("Login failed. Please try again.");
-    } finally {
-      setLoading(false);
-    }
-  };
+// ─── Component ───────────────────────────────────────────
+export default function LoginModal({
+  onClose,
+  onSubmit,
+  apiError,
+}: LoginModalProps) {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<{ email: string; password: string }>();
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
@@ -59,40 +45,53 @@ export default function LoginModal({ onClose }: LoginModalProps) {
         </h2>
 
         {/* Login Form */}
-        <form className="space-y-4" onSubmit={handleSubmit}>
-          <TextBox
-            type="email"
-            name="email"
-            placeholder="Email address"
-            value={form.email}
-            onChange={handleChange}
-            required
-            className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500"
-          />
-          <TextBox
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={form.password}
-            onChange={handleChange}
-            required
-            className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500"
-          />
-
-          {error && <p className="text-sm text-red-500">{error}</p>}
-
-          <div className="text-right">
-            <LinkComponent
-              href="/userLogin/ForgotPassword"
-              onClick={onClose}
-              className="text-sm text-pink-600 hover:underline"
-            >
-              {loginBtn.forgotPassword}
-            </LinkComponent>
+        <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+          {/* Email */}
+          <div>
+            <TextBox
+              type="email"
+              placeholder="Email address"
+              className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              {...register("email", {
+                required: "Email is required",
+                pattern: {
+                  value: /^\S+@\S+$/i,
+                  message: "Invalid email address",
+                },
+              })}
+            />
+            {errors.email && (
+              <p className="text-sm text-red-600">{errors.email.message}</p>
+            )}
           </div>
 
-          <Button type="submit" className="w-full" disabled={loading}>
-            {loading ? "Logging in..." : loginBtn.login}
+          {/* Password */}
+          <div>
+            <TextBox
+              type="password"
+              placeholder="Password"
+              className="w-full rounded-md border px-4 py-2 focus:outline-none focus:ring-2 focus:ring-pink-500"
+              {...register("password", {
+                required: "Password is required",
+                minLength: {
+                  value: 6,
+                  message: "Password must be at least 6 characters",
+                },
+              })}
+            />
+            {errors.password && (
+              <p className="text-sm text-red-600">{errors.password.message}</p>
+            )}
+          </div>
+
+          {/* API Error */}
+          {apiError && (
+            <p className="text-sm text-red-600">{apiError}</p>
+          )}      
+
+          {/* Submit Button */}
+          <Button type="submit" className="w-full">
+            {loginBtn.login}
           </Button>
         </form>
 

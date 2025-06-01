@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { FormProvider, useForm } from "react-hook-form";
 import AddProduct from "@components/adminPanel/AddProduct";
 import {
   createProductAPI,
@@ -6,6 +7,7 @@ import {
   deleteProductAPI,
 } from "@utils/api/productApi";
 import { ProductType } from "@data/interface/product";
+import { getCsrfToken } from "@utils/api/AuthApi";
 
 interface Props {
   initialProducts: ProductType[];
@@ -13,102 +15,122 @@ interface Props {
 
 export default function AddProductWrapper({ initialProducts }: Props) {
   const [products, setProducts] = useState(initialProducts);
-  const [form, setForm] = useState({
-    id: 0,
-    name: "",
-    price: "",  
-    description: "",
-    image_url:"",
-  });
   const [file, setFile] = useState<File | null>(null);
   const [isEditing, setIsEditing] = useState(false);
 
-  const resetForm = () => {
-    setForm({
+  const methods = useForm({
+    defaultValues: {
       id: 0,
-      name: "",     
+      name: "",
       price: "",
       description: "",
-      image_url:"",
-    });
+      image_url: "",
+    },
+  });
+
+  const { reset, setError, setValue } = methods;
+
+  const resetForm = () => {
+    reset();
     setFile(null);
     setIsEditing(false);
-  };
-
-  const onChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    setForm({ ...form, [e.target.name]: e.target.value });
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFile(e.target.files?.[0] || null);
   };
 
-  const onAdd = async () => {
-    //should be edited with validation
+  const onAdd = async (data: any) => {
     if (!file) {
-      alert("Please upload an image.");
+      setError("root", { type: "manual", message: "Please upload an image." });
+      return;
+    }
+
+    const csrfToken = await getCsrfToken();
+    if (!csrfToken) {
+      setError("root", { type: "manual", message: "CSRF token is missing." });
       return;
     }
 
     const formData = new FormData();
-    formData.append("name", form.name);
-    formData.append("price", form.price);
-    formData.append("description", form.description);
+    formData.append("name", data.name);
+    formData.append("price", data.price);
+    formData.append("description", data.description);
     formData.append("image", file);
 
-    const newProduct = await createProductAPI(formData);
-    setProducts([...products, newProduct]);
+    const response = await createProductAPI(formData, csrfToken);
+    if (!response.success) {
+      setError("root", { type: "manual", message: response.message });
+      return;
+    }
+
+    setProducts([...products, response.product]);
     resetForm();
   };
 
-  const onUpdate = async () => {
-  
-    if (!form.id) return;
+  const onUpdate = async (data: any) => {
+    const csrfToken = await getCsrfToken();
+    if (!csrfToken) {
+      setError("root", { type: "manual", message: "CSRF token is missing." });
+      return;
+    }
 
     const formData = new FormData();
-    formData.append("name", form.name);
-    formData.append("price", form.price);
-    formData.append("description", form.description);
+    formData.append("name", data.name);
+    formData.append("price", data.price);
+    formData.append("description", data.description);
     if (file) {
       formData.append("image", file);
     }
 
-    const updatedProduct = await updateProductAPI(form.id, formData);
-    setProducts(products.map((p) => (p.id === updatedProduct.id ? updatedProduct : p)));
+    const response = await updateProductAPI(data.id, formData, csrfToken);
+    if (!response.success) {
+      setError("root", { type: "manual", message: response.message });
+      return;
+    }
+
+    setProducts(products.map((p) => (p.id === response.product.id ? response.product : p)));
     resetForm();
   };
 
   const onEdit = (product: ProductType) => {
-    setForm({
-      id: product.id,
-      name: product.name,
-      price: product.price.toString(),
-      description: product.description || "",   
-      image_url: product.image_url || "",  
-    });   
-    setFile(null); 
+    setValue("id", product.id);
+    setValue("name", product.name);
+    setValue("price", product.price.toString());
+    setValue("description", product.description || "");
+    setValue("image_url", product.image_url || "");
+    setFile(null);
     setIsEditing(true);
   };
 
   const onDelete = async (id: number) => {
-    await deleteProductAPI(id);
+    const csrfToken = await getCsrfToken();
+    if (!csrfToken) {
+      setError("root", { type: "manual", message: "CSRF token is missing." });
+      return;
+    }
+
+    const response = await deleteProductAPI(id, csrfToken);
+    if (!response.success) {
+      setError("root", { type: "manual", message: response.message });
+      return;
+    }
+
     setProducts(products.filter((p) => p.id !== id));
   };
 
-  
-
   return (
-    <AddProduct
-      products={products}
-      form={form}
-      file={file}
-      onChange={onChange}
-      onAdd={onAdd}
-      onUpdate={onUpdate}
-      onEdit={onEdit}
-      onDelete={onDelete}
-      isEditing={isEditing}
-      handleFileChange={handleFileChange}
-    />
+    <FormProvider {...methods}>
+      <AddProduct
+        products={products}
+        onAdd={onAdd}
+        onUpdate={onUpdate}
+        onEdit={onEdit}
+        onDelete={onDelete}
+        isEditing={isEditing}
+        handleFileChange={handleFileChange}
+        file={file}
+      />
+    </FormProvider>
   );
 }

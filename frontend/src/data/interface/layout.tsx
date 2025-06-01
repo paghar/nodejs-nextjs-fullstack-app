@@ -1,4 +1,5 @@
 import { ReactNode } from "react";
+import { User } from "./login";
 
 export interface CartItem {
   id: number;
@@ -24,4 +25,6 @@ export interface LayoutProps {
   showCart: boolean;
   isOpenLoginModal: () => void;
   showLoginModal: boolean;
+  user? : User
+  handleLogout: () => void;
 }

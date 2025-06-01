@@ -3,6 +3,8 @@ import { GlobalState, Action } from "./globalTypes";
 export const initialState: GlobalState = {
   user: null,
   loading: false,
+  showLoginModal: false,
+  showCart: false,
 };
 
 export function globalReducer(state: GlobalState, action: Action): GlobalState {
@@ -13,6 +15,10 @@ export function globalReducer(state: GlobalState, action: Action): GlobalState {
     return { ...state, user: null, loading: false };
   case "SET_LOADING":
     return { ...state, loading: action.payload };
+  case "TOGGLE_LOGIN_MODAL":
+    return { ...state, showLoginModal: !state.showLoginModal };
+  case "TOGGLE_CART_MODAL":
+    return { ...state, showCart: !state.showCart };
   default:
     return state;
   }
