@@ -30,10 +30,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
             {product.description}
           </p>
 
-          <div className="mt-4 flex justify-between gap-2">
-            <Button variant="destructive" size="sm">
-              {productGridBtn.btnDetails}
-            </Button>
+          <div className="mt-4 flex justify-end gap-2">           
             <Button size="sm">
               {productGridBtn.btnAddToCart}
             </Button>
