@@ -6,6 +6,7 @@ import cors from 'cors';
 import productRoutes from './routes/productRoutes';
 import path from 'path';
 import authRoutes from './routes/authRoutes';
+import cartRoutes from './routes/cartRoutes';
 
 const app: Application = express();
 
@@ -38,6 +39,7 @@ app.use('/uploads', express.static(path.join(__dirname, '../uploads')));
 
 // Routes
 app.use('/api/products', productRoutes);
+app.use('/api/cart', cartRoutes);
 app.use('/api/auth', authRoutes); 
 
 export default app;
