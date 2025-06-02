@@ -20,27 +20,15 @@ import Order from './Order';
 import OrderItem from './OrderItem';
 import AuthToken from './AuthToken';
 
-// Associations
-// User.hasOne(Cart, { foreignKey: 'user_id' });
-// Cart.belongsTo(User, { foreignKey: 'user_id' });
+//Associations
+User.hasOne(Cart, { foreignKey: 'user_id' });
+Cart.belongsTo(User, { foreignKey: 'user_id' });
 
-// Cart.hasMany(CartItem, { foreignKey: 'cart_id' });
-// CartItem.belongsTo(Cart, { foreignKey: 'cart_id' });
+Cart.hasMany(CartItem, { foreignKey: 'cart_id' });
+CartItem.belongsTo(Cart, { foreignKey: 'cart_id' });
 
-// Product.hasMany(CartItem, { foreignKey: 'product_id' });
-// CartItem.belongsTo(Product, { foreignKey: 'product_id' });
 
-// User.hasMany(Order, { foreignKey: 'user_id' });
-// Order.belongsTo(User, { foreignKey: 'user_id' });
 
-// Order.hasMany(OrderItem, { foreignKey: 'order_id' });
-// OrderItem.belongsTo(Order, { foreignKey: 'order_id' });
-
-// Product.hasMany(OrderItem, { foreignKey: 'product_id' });
-// OrderItem.belongsTo(Product, { foreignKey: 'product_id' });
-
-// User.hasMany(AuthToken, { foreignKey: 'user_id' });
-// AuthToken.belongsTo(User, { foreignKey: 'user_id' });
 
 export {
   sequelize,
