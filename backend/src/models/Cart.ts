@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import {sequelize} from './index';
+import sequelize from './sequelize';
 import CartItem from './CartItem'; 
 
 class Cart extends Model {

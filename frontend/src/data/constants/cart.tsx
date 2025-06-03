@@ -15,8 +15,10 @@ export const cartItems = [
 
 export const cartText ={
   cartItems:"Cart Items",
-  empty:"Your cart is empty.",
+  empty:"Cart is empty.",
   removeBtn:"Remove",
   processCheckout:"Process Checkout",
   Total:"Total",
+  quantity:"Quantity",
+  subtotal:"Subtotal",
 };
