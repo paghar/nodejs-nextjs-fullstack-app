@@ -51,7 +51,7 @@ export const addToCart = async (req: Request, res: Response): Promise<void> => {
       });
     }
 
-    res.status(200).json({
+    res.status(200).json({      
       message: 'Product added to cart',
       item: {
         id: cartItem.id,
@@ -77,19 +77,21 @@ export const getCart = async (req: Request, res: Response): Promise<void> => {
 
   try {
     const cart = await Cart.findOne({
-      where: { user_id: userId },
-      include: [
-        {
-          model: CartItem,
-          include: [
-            {
-              model: Product,
-              attributes: ['id', 'name', 'price', 'image'],
-            },
-          ],
-        },
-      ],
-    });
+    where: { user_id: userId },
+    include: [
+      {
+        model: CartItem,
+        as: 'cartItems', // MUST match index.ts
+        include: [
+          {
+            model: Product,
+            as: 'product', // MUST match index.ts
+            attributes: ['id', 'name', 'price', 'image_url'],
+          },
+        ],
+      },
+    ],
+  });
 
     if (!cart) {
       res.status(200).json({ cartItems: [] });

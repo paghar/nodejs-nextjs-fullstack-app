@@ -1,11 +1,9 @@
 import { Dispatch } from "react";
 import { Action } from "./globalTypes";
-import {
-  getCurrentUser,
-  logoutUser,
-} from "@utils/api/AuthApi"; 
+import { getCurrentUser, logoutUser } from "@utils/api/AuthApi";
+import { getCartItems } from "@utils/api/cartApi";
 
-// Load current user session
+// Load current user and cart (if logged in)
 export const loadUser = async (dispatch: Dispatch<Action>) => {
   dispatch({ type: "SET_LOADING", payload: true });
 
@@ -14,6 +12,9 @@ export const loadUser = async (dispatch: Dispatch<Action>) => {
 
     if (user && user.email) {
       dispatch({ type: "SET_USER", payload: user });
+
+      const cart = await getCartItems();
+      dispatch({ type: "SET_CART", payload: cart });
     } else {
       dispatch({ type: "LOGOUT_USER" });
     }
@@ -22,7 +23,7 @@ export const loadUser = async (dispatch: Dispatch<Action>) => {
   }
 };
 
-// Log out current user
+// Log out user
 export const logout = async (dispatch: Dispatch<Action>) => {
   try {
     await logoutUser();
@@ -31,16 +32,27 @@ export const logout = async (dispatch: Dispatch<Action>) => {
   }
 };
 
-// Toggle login modal visibility
+// Toggle login modal
 export const toggleLoginModal = (dispatch: Dispatch<Action>) => {
   dispatch({ type: "TOGGLE_LOGIN_MODAL" });
 };
 
-// Toggle cart modal visibility
+// Toggle cart modal
 export const toggleCartModal = (dispatch: Dispatch<Action>) => {
   dispatch({ type: "TOGGLE_CART_MODAL" });
 };
 
-export const setCurrentUser = (dispatch: Dispatch<Action>,user: any) => {
+// Set current user manually (after login)
+export const setCurrentUser = (dispatch: Dispatch<Action>, user: any) => {
   dispatch({ type: "SET_USER", payload: user });
+};
+
+// Set cart items manually (optional use)
+export const setCartItems = (dispatch: Dispatch<Action>, cartItems: any) => {
+  dispatch({ type: "SET_CART", payload: cartItems });
+};
+
+// Clear cart
+export const clearCart = (dispatch: Dispatch<Action>) => {
+  dispatch({ type: "CLEAR_CART" });
 };

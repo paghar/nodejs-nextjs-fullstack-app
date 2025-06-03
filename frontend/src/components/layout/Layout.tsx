@@ -1,18 +1,13 @@
 "use client";
 
-// ─── External Dependencies ───────────────────────────────
 import Image from "next/image";
-
-// ─── Components ──────────────────────────────────────────
 import Cart from "@components/cart/Cart";
 import Button from "@components/ui/Button";
 import LinkComponent from "@components/ui/LinkComponent";
 
-// ─── Constants & Types ───────────────────────────────────
 import { layoutBtn, footer } from "@data/constants/layout";
 import { LayoutProps } from "@data/interface/layout";
 
-// ─── Component ───────────────────────────────────────────
 export default function Layout({
   showCart,
   cartItems,
@@ -32,8 +27,9 @@ export default function Layout({
         <div className="flex items-center space-x-4">
           <Image src="/globe.svg" alt="Logo" width={32} height={32} />
         </div>
+
         <div className="relative flex items-center gap-3">
-          {user?.name != "Guest" ? (
+          {user?.name !== "Guest" ? (
             <>
               <span className="text-pink-600 font-semibold text-md drop-shadow-sm">
                 {user?.name}
@@ -43,6 +39,7 @@ export default function Layout({
           ) : (
             <Button onClick={isOpenLoginModal}>{layoutBtn.login}</Button>
           )}
+
           <Button onClick={isOpenCart}>{layoutBtn.cart}</Button>
 
           {showCart && (

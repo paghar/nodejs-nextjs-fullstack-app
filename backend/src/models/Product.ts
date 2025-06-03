@@ -1,5 +1,5 @@
 import { DataTypes, Model } from 'sequelize';
-import {sequelize} from './index';
+import sequelize from './sequelize';
 
 class Product extends Model {
   public id!: number;
@@ -16,7 +16,10 @@ Product.init(
     name: { type: DataTypes.STRING, allowNull: false },
     description: DataTypes.STRING,
     price: { type: DataTypes.FLOAT, allowNull: false },   
-    image_url: DataTypes.STRING,
+    image_url: {
+      type: DataTypes.STRING,
+      field: 'image_url', // this ensures Sequelize knows the actual DB column name
+   }
   },
   {
     sequelize,

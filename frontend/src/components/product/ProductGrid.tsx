@@ -1,10 +1,13 @@
 import Image from "next/image";
 import Button from "@components/ui/Button";
-import { ProductGridProps } from "@data/interface/product";
+import { ProductGridProps, ProductType } from "@data/interface/product";
 import { productGridBtn } from "@data/constants/product";
 import { API_BASE_URL } from "@data/constants/public";
 
-export default function ProductGrid({ products }: ProductGridProps) {
+export default function ProductGrid({
+  products,
+  onAddToCart,
+}: ProductGridProps & { onAddToCart: (product: ProductType) => void }) {
   return (
     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
       {products.map((product) => (
@@ -31,7 +34,7 @@ export default function ProductGrid({ products }: ProductGridProps) {
           </p>
 
           <div className="mt-4 flex justify-end gap-2">           
-            <Button size="sm">
+            <Button size="sm" onClick={() => onAddToCart(product)}>
               {productGridBtn.btnAddToCart}
             </Button>
           </div>

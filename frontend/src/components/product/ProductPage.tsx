@@ -2,7 +2,7 @@ import TextBox from "@components/ui/TextBox";
 import SelectBox from "@components/ui/SelectBox";
 import ProductGrid from "@components/product/ProductGrid";
 import Pagination from "@components/product/Pagination";
-import { ProductPageProps, SortOption } from "@data/interface/product";
+import { ProductPageProps, SortOption, ProductType } from "@data/interface/product";
 import { productCatalog } from "@data/constants/product";
 
 export default function ProductPage({
@@ -15,7 +15,8 @@ export default function ProductPage({
   onSort,
   onPageChange,
   loading,
-}: ProductPageProps) {
+  onAddToCart,
+}: ProductPageProps & { onAddToCart: (product: ProductType) => void }) {
   return (
     <div className="p-6 max-w-7xl mx-auto">
       <h1 className="text-3xl font-bold mb-6 text-[#e6005c]">{productCatalog.title}</h1>
@@ -42,7 +43,7 @@ export default function ProductPage({
         <div className="text-center text-lg text-gray-500 py-20">{productCatalog.loading}</div>
       ) : (
         <>         
-          <ProductGrid products={products} />
+          <ProductGrid products={products} onAddToCart={onAddToCart} />
           <Pagination
             currentPage={currentPage}
             totalPages={totalPages}
