@@ -97,10 +97,11 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
     }
   };
 
-  const calculateTotal = () =>
-    cartItems
-      .reduce((total, item) => total + item.price * item.quantity, 0)
+  const calculateTotal = () => {
+    return cartItems
+      .reduce((total, item) => total + item.product.price * item.quantity, 0)
       .toFixed(2);
+  };
 
   // ─── Render ─────────────────────────────────────────────
   return (

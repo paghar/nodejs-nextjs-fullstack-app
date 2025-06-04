@@ -51,7 +51,7 @@ export const addToCart = async (
 
 // ─── DELETE: Remove item from cart ──────────────
 export const removeCartItem = async (
-  productId: number
+  cartItemId: number
 ): Promise<{ success: boolean; message: string }> => {
   try {
     const csrfToken = await getCsrfToken();
@@ -59,7 +59,7 @@ export const removeCartItem = async (
       return { success: false, message: "CSRF token could not be fetched" };
     }
 
-    await api.delete(`/api/cart/remove/${productId}`, {
+    await api.delete(`/api/cart/item/${cartItemId}`, {
       headers: {
         "X-CSRF-Token": csrfToken,
       },
