@@ -18,6 +18,7 @@ export const getCartItems = async (): Promise<CartItem[]> => {
     const res = await api.get("/api/cart");
     return res?.data?.cartItems || [];
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error fetching cart:", error);
     return [];
   }
@@ -41,6 +42,7 @@ export const addToCart = async (
     );
     return { success: true, message: "Item added" };
   } catch (error: any) {
+    // eslint-disable-next-line no-console
     console.error("Add to cart error:", error);
     return {
       success: false,
@@ -63,7 +65,7 @@ export const removeCartItem = async (
       headers: {
         "X-CSRF-Token": csrfToken,
       },
-      withCredentials: true, // if your API requires cookies sent
+      withCredentials: true, 
     });
 
     return { success: true, message: "Item removed successfully" };
