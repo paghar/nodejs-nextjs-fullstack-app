@@ -1,8 +1,10 @@
+// ─── Types ────────────────────────────────────────────────────────────────
+
 export interface ProductType {
   id: number;
-  name: string;  
+  name: string;
   price: string;
-  description: string; 
+  description: string;
   image_url: string;
 }
 
@@ -10,6 +12,8 @@ export enum SortOption {
   PriceAsc = "price_asc",
   PriceDesc = "price_desc",
 }
+
+// ─── Props ────────────────────────────────────────────────────────────────
 
 export interface ProductPageProps {
   products: ProductType[];
@@ -37,12 +41,14 @@ export interface AddProductProps {
   products: ProductType[];
   form: ProductType;
   file: File | null;
-  onChange: (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  onChange: (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   onAdd: () => void;
   onUpdate: () => void;
   onEdit: (product: ProductType, index: number) => void;
   onDelete: (index: number) => void;
-  isEditing: boolean;  
+  isEditing: boolean;
   handleFileChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -52,6 +58,8 @@ export interface ProductTableProps {
   onEdit: (product: ProductType, index: number) => void;
 }
 
+// ─── API Parameters & Responses ──────────────────────────────────────────
+
 export interface FetchProductParams {
   search?: string;
   sort?: SortOption;
@@ -59,9 +67,9 @@ export interface FetchProductParams {
   limit?: number;
 }
 
-export interface paginatedProducts {
+export interface PaginatedProducts {
   products: ProductType[];
-  total:number;
-  page:number;
-  limit:number;
+  total: number;
+  page: number;
+  limit: number;
 }

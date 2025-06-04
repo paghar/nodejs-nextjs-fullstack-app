@@ -1,14 +1,16 @@
-export const productBtn={
-  btnAddProduct : "Add Product",
-  btnEditProduct : "Edit Product",
+// ─── Button Labels ─────────────────────────────────────────────────────────
+
+export const productBtn = {
+  btnAddProduct: "Add Product",
+  btnEditProduct: "Edit Product",
 };
 
-export const productGridBtn ={
+export const productGridBtn = {
   btnDetails: "Details",
   btnAddToCart: "Add to Cart",
 };
 
-export const paginationBtn={
+export const paginationBtn = {
   btnPrev: "Prev",
   btnNext: "Next",
 };
@@ -18,6 +20,8 @@ export const productTableBtn = {
   btnDelete: "Delete",
 };
 
+// ─── Table Headers ─────────────────────────────────────────────────────────
+
 export const productTableHeader = {
   title: "Title",
   image: "Image",
@@ -26,9 +30,11 @@ export const productTableHeader = {
   actions: "Actions",
 };
 
-export const productCatalog ={
+// ─── Product Catalog ───────────────────────────────────────────────────────
+
+export const productCatalog = {
   title: "Product Catalog",
-  searchPlaceholder: "Search products...", 
+  searchPlaceholder: "Search products...",
   sortOptions: [
     { label: "Sort by Title", value: "title" },
     { label: "Sort by Price (Low to High)", value: "priceAsc" },

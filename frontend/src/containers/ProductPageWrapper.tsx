@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import ProductPage from "@components/product/ProductPage";
 import { fetchPaginatedProducts } from "@utils/api/productApi";
-import { paginatedProducts, SortOption, ProductType } from "@data/interface/product";
+import { PaginatedProducts, SortOption, ProductType } from "@data/interface/product";
 import { getCsrfToken } from "@utils/api/AuthApi";
 import { addToCart } from "@utils/api/cartApi";
 import { useCart } from "@hooks/useCart";
@@ -15,7 +15,7 @@ import { toggleCartModal, toggleLoginModal } from "@context/global/globalActions
 
 const totalPage = (total: number, limit: number) => Math.ceil(total / limit);
 
-export default function ProductPageWrapper(initialData: paginatedProducts) {
+export default function ProductPageWrapper(initialData: PaginatedProducts) {
   const [products, setProducts] = useState(initialData.products || []);
   const [totalPages, setTotalPages] = useState(totalPage(initialData.total, initialData.limit));
   const [search, setSearch] = useState("");
