@@ -2,15 +2,17 @@ import { Dispatch } from "react";
 import { Action } from "./globalTypes";
 import { getCurrentUser, logoutUser } from "@utils/api/AuthApi";
 import { getCartItems } from "@utils/api/cartApi";
+import { User } from "@data/interface/login";
+import { CartItem } from "@data/interface/cart";
 
-// Load current user and cart (if logged in)
+// ─── Load Current User and Cart ──────────────────────────────────────────────
 export const loadUser = async (dispatch: Dispatch<Action>) => {
   dispatch({ type: "SET_LOADING", payload: true });
 
   try {
     const user = await getCurrentUser();
 
-    if (user && user.email) {
+    if (user?.email) {
       dispatch({ type: "SET_USER", payload: user });
 
       const cart = await getCartItems();
@@ -23,7 +25,7 @@ export const loadUser = async (dispatch: Dispatch<Action>) => {
   }
 };
 
-// Log out user
+// ─── Log Out User ─────────────────────────────────────────────────────────────
 export const logout = async (dispatch: Dispatch<Action>) => {
   try {
     await logoutUser();
@@ -32,27 +34,25 @@ export const logout = async (dispatch: Dispatch<Action>) => {
   }
 };
 
-// Toggle login modal
+// ─── Toggle Modals ────────────────────────────────────────────────────────────
 export const toggleLoginModal = (dispatch: Dispatch<Action>) => {
   dispatch({ type: "TOGGLE_LOGIN_MODAL" });
 };
 
-// Toggle cart modal
 export const toggleCartModal = (dispatch: Dispatch<Action>) => {
   dispatch({ type: "TOGGLE_CART_MODAL" });
 };
 
-// Set current user manually (after login)
-export const setCurrentUser = (dispatch: Dispatch<Action>, user: any) => {
+// ─── Set State Manually ───────────────────────────────────────────────────────
+export const setCurrentUser = (dispatch: Dispatch<Action>, user: User) => {
   dispatch({ type: "SET_USER", payload: user });
 };
 
-// Set cart items manually (optional use)
-export const setCartItems = (dispatch: Dispatch<Action>, cartItems: any) => {
+export const setCartItems = (dispatch: Dispatch<Action>, cartItems: CartItem[]) => {
   dispatch({ type: "SET_CART", payload: cartItems });
 };
 
-// Clear cart
+// ─── Clear Cart ───────────────────────────────────────────────────────────────
 export const clearCart = (dispatch: Dispatch<Action>) => {
   dispatch({ type: "CLEAR_CART" });
 };

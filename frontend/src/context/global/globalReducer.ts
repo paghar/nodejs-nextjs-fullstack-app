@@ -1,5 +1,7 @@
+// ─── Types ────────────────────────────────────────────────────────────────
 import { GlobalState, Action } from "./globalTypes";
 
+// ─── Initial State ─────────────────────────────────────────────────────────
 export const initialState: GlobalState = {
   user: null,
   loading: false,
@@ -8,6 +10,7 @@ export const initialState: GlobalState = {
   cartItems: [],
 };
 
+// ─── Reducer ───────────────────────────────────────────────────────────────
 export function globalReducer(state: GlobalState, action: Action): GlobalState {
   switch (action.type) {
   case "SET_USER":

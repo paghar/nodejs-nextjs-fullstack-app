@@ -1,3 +1,4 @@
+// ─── External Dependencies ─────────────────────────────────────────────────
 import React, {
   createContext,
   useReducer,
@@ -5,12 +6,16 @@ import React, {
   Dispatch,
   ReactNode,
 } from "react";
+
+// ─── Internal Dependencies ────────────────────────────────────────────────
 import { globalReducer, initialState } from "./globalReducer";
 import { GlobalState, Action } from "./globalTypes";
 
+// ─── Contexts ──────────────────────────────────────────────────────────────
 const StateContext = createContext<GlobalState | undefined>(undefined);
 const DispatchContext = createContext<Dispatch<Action> | undefined>(undefined);
 
+// ─── Provider ──────────────────────────────────────────────────────────────
 export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   const [state, dispatch] = useReducer(globalReducer, initialState);
 
@@ -23,6 +28,7 @@ export const GlobalProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
+// ─── Custom Hooks ──────────────────────────────────────────────────────────
 export const useGlobalState = (): GlobalState => {
   const context = useContext(StateContext);
   if (!context) {

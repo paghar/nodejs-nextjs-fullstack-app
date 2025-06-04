@@ -1,3 +1,5 @@
+// ─── Types ────────────────────────────────────────────────────────────────
+
 export interface User {
   name: string;
   email: string;
@@ -5,15 +7,15 @@ export interface User {
 
 export interface CartItem {
   id: number;
-  cart_id: number; 
+  cart_id: number;
   product_id: number;
   quantity: number;
   product: {
     id: number;
     image_url: string;
     name: string;
-    price: number;   
-  }
+    price: number;
+  };
 }
 
 export interface GlobalState {
