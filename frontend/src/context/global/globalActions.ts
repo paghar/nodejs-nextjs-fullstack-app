@@ -1,14 +1,15 @@
+// ─── Imports ────────────────────────────────────────────────────────────────
 import { Dispatch } from "react";
-import { Action } from "./globalTypes";
+import { GlobalAction } from "./globalTypes";
 import { getCurrentUser, logoutUser } from "@utils/api/AuthApi";
 import { getCartItems } from "@utils/api/cartApi";
 import { User } from "@data/interface/login";
 import { CartItem } from "@data/interface/cart";
+import { ProductType } from "@data/interface/product";
+import { SortOption } from "@data/interface/product";
 
-// ─── Load Current User and Cart ──────────────────────────────────────────────
-export const loadUser = async (dispatch: Dispatch<Action>) => {
-  dispatch({ type: "SET_LOADING", payload: true });
-
+// ─── User Actions ───────────────────────────────────────────────────────────
+export const loadUser = async (dispatch: Dispatch<GlobalAction>) => {
   try {
     const user = await getCurrentUser();
 
@@ -25,8 +26,7 @@ export const loadUser = async (dispatch: Dispatch<Action>) => {
   }
 };
 
-// ─── Log Out User ─────────────────────────────────────────────────────────────
-export const logout = async (dispatch: Dispatch<Action>) => {
+export const logout = async (dispatch: Dispatch<GlobalAction>) => {
   try {
     await logoutUser();
   } finally {
@@ -34,25 +34,49 @@ export const logout = async (dispatch: Dispatch<Action>) => {
   }
 };
 
-// ─── Toggle Modals ────────────────────────────────────────────────────────────
-export const toggleLoginModal = (dispatch: Dispatch<Action>) => {
-  dispatch({ type: "TOGGLE_LOGIN_MODAL" });
-};
-
-export const toggleCartModal = (dispatch: Dispatch<Action>) => {
-  dispatch({ type: "TOGGLE_CART_MODAL" });
-};
-
-// ─── Set State Manually ───────────────────────────────────────────────────────
-export const setCurrentUser = (dispatch: Dispatch<Action>, user: User) => {
+export const setCurrentUser = (dispatch: Dispatch<GlobalAction>, user: User) => {
   dispatch({ type: "SET_USER", payload: user });
 };
 
-export const setCartItems = (dispatch: Dispatch<Action>, cartItems: CartItem[]) => {
+// ─── Modal Actions ──────────────────────────────────────────────────────────
+export const toggleLoginModal = (dispatch: Dispatch<GlobalAction>) => {
+  dispatch({ type: "TOGGLE_LOGIN_MODAL" });
+};
+
+export const toggleCartModal = (dispatch: Dispatch<GlobalAction>) => {
+  dispatch({ type: "TOGGLE_CART_MODAL" });
+};
+
+// ─── Cart Actions ───────────────────────────────────────────────────────────
+export const setCartItems = (dispatch: Dispatch<GlobalAction>, cartItems: CartItem[]) => {
   dispatch({ type: "SET_CART", payload: cartItems });
 };
 
-// ─── Clear Cart ───────────────────────────────────────────────────────────────
-export const clearCart = (dispatch: Dispatch<Action>) => {
+export const clearCart = (dispatch: Dispatch<GlobalAction>) => {
   dispatch({ type: "CLEAR_CART" });
+};
+
+// ─── Product Actions ────────────────────────────────────────────────────────
+export const setProducts = (dispatch: Dispatch<GlobalAction>, products: ProductType[]) => {
+  dispatch({ type: "SET_PRODUCTS", payload: products });
+};
+
+export const setTotalPages = (dispatch: Dispatch<GlobalAction>, totalPages: number) => {
+  dispatch({ type: "SET_TOTAL_PAGES", payload: totalPages });
+};
+
+export const setSearch = (dispatch: Dispatch<GlobalAction>, search: string) => {
+  dispatch({ type: "SET_SEARCH", payload: search });
+};
+
+export const setSort = (dispatch: Dispatch<GlobalAction>, sort: SortOption) => {
+  dispatch({ type: "SET_SORT", payload: sort });
+};
+
+export const setCurrentPage = (dispatch: Dispatch<GlobalAction>, currentPage: number) => {
+  dispatch({ type: "SET_CURRENT_PAGE", payload: currentPage });
+};
+
+export const setIsLoading = (dispatch: Dispatch<GlobalAction>, isLoading: boolean) => {
+  dispatch({ type: "SET_IS_LOADING", payload: isLoading });
 };

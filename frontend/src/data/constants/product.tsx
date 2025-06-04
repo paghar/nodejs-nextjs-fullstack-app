@@ -42,3 +42,7 @@ export const productCatalog = {
   ],
   loading: "Loading products...",
 };
+
+// ─── Product Pagination ───────────────────────────────────────────────────────
+
+export const paginationLimit = 9;
