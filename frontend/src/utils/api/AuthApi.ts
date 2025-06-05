@@ -1,6 +1,9 @@
-import { API_BASE_URL } from "@data/constants/public";
-import axios from "axios";
+"use client";
 
+import axios from "axios";
+import { API_BASE_URL } from "@data/constants/public";
+
+// ─── Axios Instance ─────────────────────────────────────────────────────────
 const api = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true,
@@ -9,7 +12,7 @@ const api = axios.create({
   },
 });
 
-// Get CSRF token from backend
+// ─── Get CSRF Token ─────────────────────────────────────────────────────────
 export const getCsrfToken = async (): Promise<string | null> => {
   try {
     const res = await axios.get(`${API_BASE_URL}api/auth/csrf-token`, {
@@ -23,21 +26,19 @@ export const getCsrfToken = async (): Promise<string | null> => {
   }
 };
 
-// Register new user
+// ─── Register User ──────────────────────────────────────────────────────────
 export const registerUser = async (
   formData: { name: string; email: string; password: string },
   csrfToken: string
 ): Promise<{ success: boolean; message: string; user?: any }> => {
   try {
     const res = await api.post("api/auth/register", formData, {
-      headers: {
-        "X-CSRF-Token": csrfToken,
-      },
+      headers: { "X-CSRF-Token": csrfToken },
     });
-    return { 
-      success: true, 
-      message: `Registered: ${res.data.email}` ,
-      user: res.data.user
+    return {
+      success: true,
+      message: `Registered: ${res.data.email}`,
+      user: res.data.user,
     };
   } catch (err: any) {
     const errorMsg = err?.response?.data?.message || "Registration failed";
@@ -45,21 +46,19 @@ export const registerUser = async (
   }
 };
 
-// Log in user
+// ─── Login User ─────────────────────────────────────────────────────────────
 export const loginUser = async (
   formData: { email: string; password: string },
   csrfToken: string
 ): Promise<{ success: boolean; message: string; user?: any }> => {
   try {
     const res = await api.post("api/auth/login", formData, {
-      headers: {
-        "X-CSRF-Token": csrfToken,
-      },
+      headers: { "X-CSRF-Token": csrfToken },
     });
-    return { 
-      success: true, 
+    return {
+      success: true,
       message: `Logged in as ${res.data.email}`,
-      user: res.data.user, 
+      user: res.data.user,
     };
   } catch (err: any) {
     const errorMsg = err?.response?.data?.message || "Login failed";
@@ -67,7 +66,7 @@ export const loginUser = async (
   }
 };
 
-// Log out user
+// ─── Logout User ────────────────────────────────────────────────────────────
 export const logoutUser = async (): Promise<{ success: boolean; message: string }> => {
   try {
     await api.post("api/auth/logout");
@@ -78,7 +77,7 @@ export const logoutUser = async (): Promise<{ success: boolean; message: string 
   }
 };
 
-// Get current user session info (if logged in)
+// ─── Get Current User ───────────────────────────────────────────────────────
 export const getCurrentUser = async (): Promise<any | null> => {
   try {
     const res = await api.get("api/auth/me");

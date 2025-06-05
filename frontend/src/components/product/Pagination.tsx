@@ -2,14 +2,17 @@ import Button from "@components/ui/Button";
 import { PaginationProps } from "@data/interface/product";
 import { paginationBtn } from "@data/constants/product";
 
+// ─── Component ──────────────────────────────────────────────────────────────
 export default function Pagination({
   currentPage,
   totalPages,
   onPageChange,
 }: PaginationProps) {
+  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <div className="flex justify-center items-center mt-8 space-x-2">
-      {/* Previous Button */}
+      
+      {/* ── Previous Button ─────────────────────────────────────────────── */}
       <Button
         variant="pagination"
         disabled={currentPage === 1}
@@ -18,7 +21,7 @@ export default function Pagination({
         {paginationBtn.btnPrev}
       </Button>
 
-      {/* Page Numbers */}
+      {/* ── Page Numbers ────────────────────────────────────────────────── */}
       {Array.from({ length: totalPages }, (_, idx) => {
         const page = idx + 1;
         const isActive = currentPage === page;
@@ -35,7 +38,7 @@ export default function Pagination({
         );
       })}
 
-      {/* Next Button */}
+      {/* ── Next Button ─────────────────────────────────────────────────── */}
       <Button
         variant="pagination"
         disabled={currentPage === totalPages}

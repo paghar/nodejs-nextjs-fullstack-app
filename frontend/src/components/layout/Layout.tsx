@@ -8,6 +8,7 @@ import LinkComponent from "@components/ui/LinkComponent";
 import { layoutBtn, footer } from "@data/constants/layout";
 import { LayoutProps } from "@data/interface/layout";
 
+// ─── Component ──────────────────────────────────────────────────────────────
 export default function Layout({
   showCart,
   cartItems,
@@ -18,11 +19,13 @@ export default function Layout({
   isOpenCart,
   isOpenLoginModal,
   user,
-  handleLogout
+  handleLogout,
 }: LayoutProps) {
+  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <div className="flex flex-col min-h-screen bg-white">
-      {/* Header */}
+      
+      {/* ── Header ──────────────────────────────────────────────────────── */}
       <header className="flex items-center justify-between bg-gray-100 p-4 shadow">
         <div className="flex items-center space-x-4">
           <Image src="/globe.svg" alt="Logo" width={32} height={32} />
@@ -34,7 +37,7 @@ export default function Layout({
               <span className="text-pink-600 font-semibold text-md drop-shadow-sm">
                 {user?.name}
               </span>
-              <Button onClick={handleLogout}>{layoutBtn.Logout}</Button>
+              <Button onClick={handleLogout}>{layoutBtn.logout}</Button>
             </>
           ) : (
             <Button onClick={isOpenLoginModal}>{layoutBtn.login}</Button>
@@ -53,16 +56,16 @@ export default function Layout({
         </div>
       </header>
 
-      {/* Navigation */}
+      {/* ── Navigation ──────────────────────────────────────────────────── */}
       <nav className="flex gap-6 bg-[#e6005c] px-6 py-3 text-white shadow">
         <LinkComponent href="/">{layoutBtn.productCatalog}</LinkComponent>
         <LinkComponent href="/AdminPage">{layoutBtn.adminPanel}</LinkComponent>
       </nav>
 
-      {/* Main Content */}
+      {/* ── Main Content ────────────────────────────────────────────────── */}
       <main className="flex-1">{children}</main>
 
-      {/* Footer */}
+      {/* ── Footer ──────────────────────────────────────────────────────── */}
       <footer className="mt-8 bg-gray-100 p-4 text-center text-sm">
         {footer}
       </footer>

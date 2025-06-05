@@ -1,23 +1,28 @@
+// ─── Types ────────────────────────────────────────────────────────────────
+
+export interface FormValues {
+  name: string;
+  email: string;
+  password: string;
+}
+
+export interface User {
+  name: string;
+  email: string;
+}
+
+// ─── Props ────────────────────────────────────────────────────────────────
+
 export interface RegisterProps {
   form: {
     name: string;
     email: string;
     password: string;
   };
-  handleChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+  handleChange: (
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) => void;
   handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-}
-
-export interface ForgotPasswordFormProps {
-  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
-  email: string;
-  setEmail: (value: string) => void;
-}
-
-export interface FormValues {
-  name: string;
-  email: string;
-  password: string;
 }
 
 export interface RegisterFormProps {
@@ -27,7 +32,8 @@ export interface RegisterFormProps {
   ) => void | Promise<void>;
 }
 
-export interface User { 
-  name: string;
+export interface ForgotPasswordFormProps {
+  handleSubmit: (event: React.FormEvent<HTMLFormElement>) => void;
   email: string;
+  setEmail: (value: string) => void;
 }

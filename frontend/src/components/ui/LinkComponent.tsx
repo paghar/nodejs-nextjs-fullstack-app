@@ -1,6 +1,10 @@
+"use client";
+
+// ─── Imports ────────────────────────────────────────────────────────────────
 import Link from "next/link";
 import { MouseEventHandler, ReactNode } from "react";
 
+// ─── Props ──────────────────────────────────────────────────────────────────
 interface LinkProps {
   href: string;
   children: ReactNode;
@@ -8,11 +12,18 @@ interface LinkProps {
   onClick?: MouseEventHandler<HTMLAnchorElement>;
 }
 
-export default function LinkComponent({ href, children, className = "", onClick }: LinkProps) {
+// ─── Component ──────────────────────────────────────────────────────────────
+export default function LinkComponent({
+  href,
+  children,
+  className = "",
+  onClick,
+}: LinkProps) {
+  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <Link
-      onClick={onClick}
       href={href}
+      onClick={onClick}
       className={`hover:underline font-medium ${className}`}
     >
       {children}

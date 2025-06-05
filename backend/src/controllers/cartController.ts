@@ -132,6 +132,7 @@ export const updateCartItem = async (req: Request, res: Response): Promise<void>
     }
 
     // Make sure the cart belongs to the user
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const cartOwnerId = (cartItem as any).Cart?.user_id;
     if (cartOwnerId !== userId) {
       res.status(403).json({ message: 'Forbidden' });

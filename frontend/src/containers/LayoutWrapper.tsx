@@ -91,9 +91,9 @@ export default function LayoutWrapper({ children }: { children: ReactNode }) {
     const result = await removeCartItem(id);
 
     if (result.success) {
-      fetchCart(); // refresh cart on success
+      fetchCart(); 
     } else {
-      setApiError(result.message); // show error from API
+      setApiError(result.message); 
     }
   };
 

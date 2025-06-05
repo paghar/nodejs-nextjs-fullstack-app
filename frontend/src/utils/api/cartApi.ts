@@ -1,9 +1,11 @@
-// utils/api/cartApi.ts
+"use client";
+
+import axios from "axios";
 import { API_BASE_URL } from "@data/constants/public";
 import { getCsrfToken } from "@utils/api/AuthApi";
-import axios from "axios";
 import { CartItem } from "@data/interface/cart";
 
+// ─── Axios Instance ─────────────────────────────────────────────────────────
 const api = axios.create({
   baseURL: API_BASE_URL,
   withCredentials: true,
@@ -12,18 +14,19 @@ const api = axios.create({
   },
 });
 
-// ─── GET: User's cart items ─────────────────────
+// ─── GET: Fetch Cart Items ──────────────────────────────────────────────────
 export const getCartItems = async (): Promise<CartItem[]> => {
   try {
     const res = await api.get("/api/cart");
     return res?.data?.cartItems || [];
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error("Error fetching cart:", error);
     return [];
   }
 };
 
-// ─── POST: Add item to cart ─────────────────────
+// ─── POST: Add Product to Cart ──────────────────────────────────────────────
 export const addToCart = async (
   productId: number,
   quantity: number,
@@ -34,13 +37,12 @@ export const addToCart = async (
       "/api/cart/add",
       { productId, quantity },
       {
-        headers: {
-          "X-CSRF-Token": csrfToken,
-        },
+        headers: { "X-CSRF-Token": csrfToken },
       }
     );
     return { success: true, message: "Item added" };
   } catch (error: any) {
+    // eslint-disable-next-line no-console
     console.error("Add to cart error:", error);
     return {
       success: false,
@@ -49,7 +51,7 @@ export const addToCart = async (
   }
 };
 
-// ─── DELETE: Remove item from cart ──────────────
+// ─── DELETE: Remove Specific Item ───────────────────────────────────────────
 export const removeCartItem = async (
   cartItemId: number
 ): Promise<{ success: boolean; message: string }> => {
@@ -60,10 +62,7 @@ export const removeCartItem = async (
     }
 
     await api.delete(`/api/cart/item/${cartItemId}`, {
-      headers: {
-        "X-CSRF-Token": csrfToken,
-      },
-      withCredentials: true, // if your API requires cookies sent
+      headers: { "X-CSRF-Token": csrfToken },
     });
 
     return { success: true, message: "Item removed successfully" };
@@ -73,7 +72,7 @@ export const removeCartItem = async (
   }
 };
 
-// ─── DELETE: Clear all items ────────────────────
+// ─── DELETE: Clear Entire Cart ──────────────────────────────────────────────
 export const clearCart = async (): Promise<{ success: boolean; message: string }> => {
   try {
     const csrfToken = await getCsrfToken();
@@ -82,10 +81,7 @@ export const clearCart = async (): Promise<{ success: boolean; message: string }
     }
 
     await api.delete("/api/cart/clear", {
-      headers: {
-        "X-CSRF-Token": csrfToken,
-      },
-      withCredentials: true,
+      headers: { "X-CSRF-Token": csrfToken },
     });
 
     return { success: true, message: "Cart cleared successfully" };

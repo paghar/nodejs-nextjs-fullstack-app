@@ -15,8 +15,8 @@ const router = express.Router();
 
 router.post('/register', registerValidation, registerUser);
 router.post('/login', loginValidation, loginUser);
-router.post('/logout', requireAuth, logoutUser); // Protected
-router.get('/me', requireAuth, getCurrentUser); // Protected
+router.post('/logout', requireAuth, logoutUser); 
+router.get('/me', requireAuth, getCurrentUser);
 router.get('/csrf-token', (req, res) => {
   res.json({ csrfToken: req.csrfToken() });
 });

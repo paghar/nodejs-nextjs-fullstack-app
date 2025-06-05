@@ -1,22 +1,14 @@
+// ─── External Dependencies ────────────────────────────────────────────────
 import { ReactNode } from "react";
+
+// ─── Types ────────────────────────────────────────────────────────────────
 import { User } from "./login";
+import { CartItem } from "./cart";
 
-export interface CartItem {
-  id: number;
-  title: string;
-  price: number;
-  quantity: number;
-}
-
-export interface CartProps {
-  items: CartItem[];
-  onRemove: (id: number) => void;
-  handleCheckout: () => void;
-  calculateTotal: () => string;
-}
+// ─── Layout ──────────────────────────────────────────────────────────────
 
 export interface LayoutProps {
-  cartItems: any[];
+  cartItems: CartItem[];
   calculateTotal: () => string;
   children: ReactNode;
   handleCheckout: () => void;
@@ -25,6 +17,6 @@ export interface LayoutProps {
   showCart: boolean;
   isOpenLoginModal: () => void;
   showLoginModal: boolean;
-  user? : User
+  user?: User;
   handleLogout: () => void;
 }

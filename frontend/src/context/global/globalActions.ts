@@ -1,16 +1,19 @@
+// ─── Imports ────────────────────────────────────────────────────────────────
 import { Dispatch } from "react";
-import { Action } from "./globalTypes";
+import { GlobalAction } from "./globalTypes";
 import { getCurrentUser, logoutUser } from "@utils/api/AuthApi";
 import { getCartItems } from "@utils/api/cartApi";
+import { User } from "@data/interface/login";
+import { CartItem } from "@data/interface/cart";
+import { ProductType } from "@data/interface/product";
+import { SortOption } from "@data/interface/product";
 
-// Load current user and cart (if logged in)
-export const loadUser = async (dispatch: Dispatch<Action>) => {
-  dispatch({ type: "SET_LOADING", payload: true });
-
+// ─── User Actions ───────────────────────────────────────────────────────────
+export const loadUser = async (dispatch: Dispatch<GlobalAction>) => {
   try {
     const user = await getCurrentUser();
 
-    if (user && user.email) {
+    if (user?.email) {
       dispatch({ type: "SET_USER", payload: user });
 
       const cart = await getCartItems();
@@ -23,8 +26,7 @@ export const loadUser = async (dispatch: Dispatch<Action>) => {
   }
 };
 
-// Log out user
-export const logout = async (dispatch: Dispatch<Action>) => {
+export const logout = async (dispatch: Dispatch<GlobalAction>) => {
   try {
     await logoutUser();
   } finally {
@@ -32,27 +34,62 @@ export const logout = async (dispatch: Dispatch<Action>) => {
   }
 };
 
-// Toggle login modal
-export const toggleLoginModal = (dispatch: Dispatch<Action>) => {
-  dispatch({ type: "TOGGLE_LOGIN_MODAL" });
-};
-
-// Toggle cart modal
-export const toggleCartModal = (dispatch: Dispatch<Action>) => {
-  dispatch({ type: "TOGGLE_CART_MODAL" });
-};
-
-// Set current user manually (after login)
-export const setCurrentUser = (dispatch: Dispatch<Action>, user: any) => {
+export const setCurrentUser = (dispatch: Dispatch<GlobalAction>, user: User) => {
   dispatch({ type: "SET_USER", payload: user });
 };
 
-// Set cart items manually (optional use)
-export const setCartItems = (dispatch: Dispatch<Action>, cartItems: any) => {
+// ─── Modal Actions ──────────────────────────────────────────────────────────
+export const toggleLoginModal = (dispatch: Dispatch<GlobalAction>) => {
+  dispatch({ type: "TOGGLE_LOGIN_MODAL" });
+};
+
+export const toggleCartModal = (dispatch: Dispatch<GlobalAction>) => {
+  dispatch({ type: "TOGGLE_CART_MODAL" });
+};
+
+// ─── Cart Actions ───────────────────────────────────────────────────────────
+export const setCartItems = (dispatch: Dispatch<GlobalAction>, cartItems: CartItem[]) => {
   dispatch({ type: "SET_CART", payload: cartItems });
 };
 
-// Clear cart
-export const clearCart = (dispatch: Dispatch<Action>) => {
+export const clearCart = (dispatch: Dispatch<GlobalAction>) => {
   dispatch({ type: "CLEAR_CART" });
+};
+
+// ─── Product Actions ────────────────────────────────────────────────────────
+export const setProducts = (dispatch: Dispatch<GlobalAction>, products: ProductType[]) => {
+  dispatch({ type: "SET_PRODUCTS", payload: products });
+};
+
+export const setTotalPages = (dispatch: Dispatch<GlobalAction>, totalPages: number) => {
+  dispatch({ type: "SET_TOTAL_PAGES", payload: totalPages });
+};
+
+export const setSearch = (dispatch: Dispatch<GlobalAction>, search: string) => {
+  dispatch({ type: "SET_SEARCH", payload: search });
+};
+
+export const setSort = (dispatch: Dispatch<GlobalAction>, sort: SortOption) => {
+  dispatch({ type: "SET_SORT", payload: sort });
+};
+
+export const setCurrentPage = (dispatch: Dispatch<GlobalAction>, currentPage: number) => {
+  dispatch({ type: "SET_CURRENT_PAGE", payload: currentPage });
+};
+
+export const setIsLoading = (dispatch: Dispatch<GlobalAction>, isLoading: boolean) => {
+  dispatch({ type: "SET_IS_LOADING", payload: isLoading });
+};
+
+// ─── Product Admin Actions ────────────────────────────────────────────────────────
+export const setAdminProducts = (dispatch: Dispatch<GlobalAction>, products: ProductType[]) => {
+  dispatch({ type: "UPDATE_PRODUCT_Admin", payload: products });
+};
+
+export const setFile = (dispatch: Dispatch<GlobalAction>, file: File | null) => {
+  dispatch({ type: "FILE", payload: file });
+};
+
+export const setEditMode = (dispatch: Dispatch<GlobalAction>, isEditing: boolean) => {
+  dispatch({ type: "EDIT_MODE", payload: isEditing });
 };
