@@ -80,3 +80,16 @@ export const setCurrentPage = (dispatch: Dispatch<GlobalAction>, currentPage: nu
 export const setIsLoading = (dispatch: Dispatch<GlobalAction>, isLoading: boolean) => {
   dispatch({ type: "SET_IS_LOADING", payload: isLoading });
 };
+
+// ─── Product Admin Actions ────────────────────────────────────────────────────────
+export const setAdminProducts = (dispatch: Dispatch<GlobalAction>, products: ProductType[]) => {
+  dispatch({ type: "UPDATE_PRODUCT_Admin", payload: products });
+};
+
+export const setFile = (dispatch: Dispatch<GlobalAction>, file: File | null) => {
+  dispatch({ type: "FILE", payload: file });
+};
+
+export const setEditMode = (dispatch: Dispatch<GlobalAction>, isEditing: boolean) => {
+  dispatch({ type: "EDIT_MODE", payload: isEditing });
+};

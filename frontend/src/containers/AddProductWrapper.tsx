@@ -1,4 +1,6 @@
-import { useState } from "react";
+"use client";
+
+import { useEffect } from "react";
 import { FormProvider, useForm } from "react-hook-form";
 import AddProduct from "@components/adminPanel/AddProduct";
 import {
@@ -6,17 +8,27 @@ import {
   updateProductAPI,
   deleteProductAPI,
 } from "@utils/api/productApi";
-import { ProductType } from "@data/interface/product";
 import { getCsrfToken } from "@utils/api/AuthApi";
+import { ProductType } from "@data/interface/product";
+import {
+  useGlobalDispatch,
+  useGlobalState,
+} from "@context/global/globalContext";
+import {
+  setAdminProducts,
+  setFile,
+  setEditMode,
+} from "@context/global/globalActions";
 
+// ─── Props ──────────────────────────────────────────────────────────────────
 interface Props {
   initialProducts: ProductType[];
 }
 
+// ─── Component ──────────────────────────────────────────────────────────────
 export default function AddProductWrapper({ initialProducts }: Props) {
-  const [products, setProducts] = useState(initialProducts);
-  const [file, setFile] = useState<File | null>(null);
-  const [isEditing, setIsEditing] = useState(false);
+  const dispatch = useGlobalDispatch();
+  const { adminProducts, file, isEditing } = useGlobalState();
 
   const methods = useForm({
     defaultValues: {
@@ -30,16 +42,23 @@ export default function AddProductWrapper({ initialProducts }: Props) {
 
   const { reset, setError, setValue } = methods;
 
+  // ─── Init Products from Props ─────────────────────────────────────────────
+  useEffect(() => {
+    setAdminProducts(dispatch, initialProducts);
+  }, [dispatch, initialProducts]);
+
+  // ─── Helpers ──────────────────────────────────────────────────────────────
   const resetForm = () => {
     reset();
-    setFile(null);
-    setIsEditing(false);
+    setFile(dispatch, null);
+    setEditMode(dispatch, false);
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFile(e.target.files?.[0] || null);
+    setFile(dispatch, e.target.files?.[0] || null);
   };
 
+  // ─── CRUD Handlers ────────────────────────────────────────────────────────
   const onAdd = async (data: any) => {
     if (!file) {
       setError("root", { type: "manual", message: "Please upload an image." });
@@ -64,7 +83,7 @@ export default function AddProductWrapper({ initialProducts }: Props) {
       return;
     }
 
-    setProducts([...products, response.product]);
+    setAdminProducts(dispatch, [...adminProducts, response.product]);
     resetForm();
   };
 
@@ -89,18 +108,11 @@ export default function AddProductWrapper({ initialProducts }: Props) {
       return;
     }
 
-    setProducts(products.map((p) => (p.id === response.product.id ? response.product : p)));
+    setAdminProducts(
+      dispatch,
+      adminProducts.map((p) => (p.id === data.id ? response.product : p))
+    );
     resetForm();
-  };
-
-  const onEdit = (product: ProductType) => {
-    setValue("id", product.id);
-    setValue("name", product.name);
-    setValue("price", product.price.toString());
-    setValue("description", product.description || "");
-    setValue("image_url", product.image_url || "");
-    setFile(null);
-    setIsEditing(true);
   };
 
   const onDelete = async (id: number) => {
@@ -116,13 +128,24 @@ export default function AddProductWrapper({ initialProducts }: Props) {
       return;
     }
 
-    setProducts(products.filter((p) => p.id !== id));
+    setAdminProducts(dispatch, adminProducts.filter((p) => p.id !== id));
   };
 
+  const onEdit = (product: ProductType) => {
+    setValue("id", product.id);
+    setValue("name", product.name);
+    setValue("price", product.price.toString());
+    setValue("description", product.description || "");
+    setValue("image_url", product.image_url || "");
+    setFile(dispatch, null);
+    setEditMode(dispatch, true);
+  };
+
+  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <FormProvider {...methods}>
       <AddProduct
-        products={products}
+        products={adminProducts}
         onAdd={onAdd}
         onUpdate={onUpdate}
         onEdit={onEdit}

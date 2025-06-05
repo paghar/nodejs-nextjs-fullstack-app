@@ -90,7 +90,8 @@ export default function ProductPageWrapper(initialData: PaginatedProducts) {
         toggleCartModal(dispatch);
       }
     } catch (err) {
-      alert(`Failed to add to cart. ${err instanceof Error ? err.message : String(err)}`);
+      // eslint-disable-next-line no-console
+      console.log(`Failed to add to cart. ${err instanceof Error ? err.message : String(err)}`);
     }
   };
 

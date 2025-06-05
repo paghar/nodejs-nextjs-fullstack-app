@@ -15,6 +15,9 @@ export const initialState: GlobalState = {
   sort: SortOption.PriceAsc,
   currentPage: 1,
   isLoading: false,
+  adminProducts:[],
+  file: null,
+  isEditing: false,
 };
 
 // ─── Reducer ───────────────────────────────────────────────────────────────
@@ -64,8 +67,14 @@ export function globalReducer(
   case "SET_IS_LOADING":
     return { ...state, isLoading: action.payload };
 
-  default: {    
-    return state;
-  }
-  }
-}
+  case "UPDATE_PRODUCT_Admin":
+    return { ...state, adminProducts: action.payload };
+
+  case "FILE":
+    return { ...state, file: action.payload };
+
+  case "EDIT_MODE":
+    return { ...state, isEditing: action.payload };
+  
+  default: { return state; }
+  }}

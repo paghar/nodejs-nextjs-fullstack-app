@@ -15,6 +15,9 @@ export interface GlobalState {
   sort: SortOption;
   currentPage: number;
   isLoading: boolean;
+  adminProducts: ProductType[];
+  file: File | null;
+  isEditing: boolean;
 }
 
 // ─── Actions ────────────────────────────────────────────────────────────────
@@ -43,5 +46,11 @@ export type ProductAction =
   | { type: "SET_CURRENT_PAGE"; payload: number }
   | { type: "SET_IS_LOADING"; payload: boolean }
 
+// Product management actions for admin
+export type addProductAction =
+  | { type: "UPDATE_PRODUCT_Admin"; payload: ProductType[] }
+  | { type: "FILE"; payload: File | null }
+  | { type:"EDIT_MODE"; payload: boolean }
+
 // Combined global action type
-export type GlobalAction = LoginAction | UserAction | CartAction | ProductAction;
+export type GlobalAction = LoginAction | UserAction | CartAction | ProductAction | addProductAction;
