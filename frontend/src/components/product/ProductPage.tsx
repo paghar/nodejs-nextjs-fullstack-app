@@ -2,9 +2,10 @@ import TextBox from "@components/ui/TextBox";
 import SelectBox from "@components/ui/SelectBox";
 import ProductGrid from "@components/product/ProductGrid";
 import Pagination from "@components/product/Pagination";
-import { ProductPageProps, SortOption, ProductType } from "@data/interface/product";
+import { ProductPageProps, SortOption } from "@data/interface/product";
 import { productCatalog } from "@data/constants/product";
 
+// ─── Component ──────────────────────────────────────────────────────────────
 export default function ProductPage({
   products,
   search,
@@ -16,11 +17,16 @@ export default function ProductPage({
   onPageChange,
   loading,
   onAddToCart,
-}: ProductPageProps & { onAddToCart: (product: ProductType) => void }) {
+}: ProductPageProps) {
+  
+  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <div className="p-6 max-w-7xl mx-auto">
-      <h1 className="text-3xl font-bold mb-6 text-[#e6005c]">{productCatalog.title}</h1>
+      <h1 className="text-3xl font-bold mb-6 text-[#e6005c]">
+        {productCatalog.title}
+      </h1>
 
+      {/* ── Search and Sort Controls ────────────────────────────────────────── */}
       <div className="flex flex-col md:flex-row justify-between items-center gap-4 mb-6">
         <TextBox
           value={search}
@@ -31,6 +37,7 @@ export default function ProductPage({
           placeholder={productCatalog.searchPlaceholder}
           className="w-full md:w-1/3"
         />
+
         <SelectBox
           value={sort}
           onChange={(e) => onSort(e.target.value as SortOption)}
@@ -39,10 +46,13 @@ export default function ProductPage({
         />
       </div>
 
+      {/* ── Product Grid or Loading State ────────────────────────────────────── */}
       {loading ? (
-        <div className="text-center text-lg text-gray-500 py-20">{productCatalog.loading}</div>
+        <div className="text-center text-lg text-gray-500 py-20">
+          {productCatalog.loading}
+        </div>
       ) : (
-        <>         
+        <>
           <ProductGrid products={products} onAddToCart={onAddToCart} />
           <Pagination
             currentPage={currentPage}

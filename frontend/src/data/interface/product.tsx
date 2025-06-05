@@ -25,10 +25,12 @@ export interface ProductPageProps {
   onSearch: (value: string) => void;
   onSort: (value: SortOption) => void;
   onPageChange: (page: number) => void;
+  onAddToCart: (product: ProductType) => void
 }
 
 export interface ProductGridProps {
   products: ProductType[];
+  onAddToCart: (product: ProductType) => void
 }
 
 export interface PaginationProps {
