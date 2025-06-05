@@ -1,3 +1,6 @@
+"use client";
+
+// ─── Props ──────────────────────────────────────────────────────────────────
 interface SelectBoxProps {
   value: string;
   onChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -6,6 +9,7 @@ interface SelectBoxProps {
   ariaLabel?: string;
 }
 
+// ─── Component ──────────────────────────────────────────────────────────────
 export default function SelectBox({
   value,
   onChange,
@@ -13,6 +17,7 @@ export default function SelectBox({
   className = "",
   ariaLabel = "Select an option",
 }: SelectBoxProps) {
+  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <select
       value={value}

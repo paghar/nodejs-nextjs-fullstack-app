@@ -1,5 +1,9 @@
+"use client";
+
+// ─── Imports ────────────────────────────────────────────────────────────────
 import { ReactNode, MouseEventHandler } from "react";
 
+// ─── Props ──────────────────────────────────────────────────────────────────
 interface ButtonProps {
   children: ReactNode;
   onClick?: MouseEventHandler<HTMLButtonElement>;
@@ -10,6 +14,7 @@ interface ButtonProps {
   type?: "button" | "submit" | "reset";
 }
 
+// ─── Component ──────────────────────────────────────────────────────────────
 export default function Button({
   children,
   onClick,
@@ -19,8 +24,15 @@ export default function Button({
   className = "",
   type = "button",
 }: ButtonProps) {
+  // ─── Styles ───────────────────────────────────────────────────────────────
   const baseStyles =
-    "rounded-md px-4 py-2 font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200";
+    "rounded-md font-semibold focus:outline-none focus:ring-2 focus:ring-offset-2 transition-colors duration-200";
+
+  const sizes = {
+    sm: "text-sm py-1 px-3",
+    md: "text-base py-2 px-4",
+    lg: "text-lg py-3 px-6",
+  };
 
   const variants = {
     default: "bg-[#e6005c] text-white hover:bg-[#cc0052] focus:ring-[#e6005c]",
@@ -33,22 +45,17 @@ export default function Button({
     close: "text-gray-600 hover:text-gray-900 p-0 bg-transparent border-none focus:ring-0 absolute top-2 right-2",
   };
 
-  const sizes = {
-    sm: "text-sm",
-    md: "text-base",
-    lg: "text-lg",
-  };
+  const isTextVariant = ["link", "pagination", "close"].includes(variant);
+  const sizeStyle = isTextVariant ? "text-sm" : sizes[size];
+  const variantStyle = variants[variant] || variants.default;
 
-  const sizeStyle = variant === "link" || variant === "pagination" || variant === "close"
-    ? "text-sm"
-    : sizes[size];
-
+  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <button
       type={type}
       onClick={onClick}
       disabled={disabled}
-      className={`${baseStyles} ${variants[variant]} ${sizeStyle} ${className}`}
+      className={`${baseStyles} ${variantStyle} ${sizeStyle} ${className}`}
     >
       {children}
     </button>

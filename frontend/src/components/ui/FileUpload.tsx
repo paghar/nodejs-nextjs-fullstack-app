@@ -1,15 +1,20 @@
+"use client";
+
+// ─── Imports ────────────────────────────────────────────────────────────────
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 
+// ─── Props ──────────────────────────────────────────────────────────────────
 interface FileUploadProps {
   label: string;
-  accept: string;
+  accept?: string;
   onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
   name?: string;
   file?: File | null;
   imageUrl?: string | null;
 }
 
+// ─── Component ──────────────────────────────────────────────────────────────
 const FileUpload: React.FC<FileUploadProps> = ({
   label,
   accept = "*",
@@ -20,16 +25,23 @@ const FileUpload: React.FC<FileUploadProps> = ({
 }) => {
   const [previewUrl, setPreviewUrl] = useState<string | null>(null);
 
+  // ─── Handle File Preview ─────────────────────────────────────────────────
   useEffect(() => {
     if (file) {
-      const url = URL.createObjectURL(file);
-      setPreviewUrl(url);
-      return () => URL.revokeObjectURL(url);
+      const objectUrl = URL.createObjectURL(file);
+      setPreviewUrl(objectUrl);
+
+      return () => {
+        URL.revokeObjectURL(objectUrl);
+      };
     } else {
       setPreviewUrl(null);
     }
   }, [file]);
 
+  const previewSource = file && previewUrl ? previewUrl : imageUrl;
+
+  // ─── Render ───────────────────────────────────────────────────────────────
   return (
     <div>
       {label && (
@@ -40,6 +52,7 @@ const FileUpload: React.FC<FileUploadProps> = ({
           {label}
         </label>
       )}
+
       <input
         id={name || "file-upload"}
         type="file"
@@ -54,29 +67,18 @@ const FileUpload: React.FC<FileUploadProps> = ({
           file:bg-[#e6005c] file:text-white
           hover:file:bg-pink-600"
       />
-      <div className="mt-2">
-        {file && previewUrl ? (
-          <div className="flex items-center space-x-2">           
-            <Image
-              src={previewUrl}
-              alt="Selected"
-              width={100}
-              height={100}
-              style={{ borderRadius: 4, objectFit: "cover" }}
-            />
-          </div>
-        ) : imageUrl && (
-          <div className="flex items-center space-x-2">           
-            <Image
-              src={imageUrl}
-              alt="Current"
-              width={100}
-              height={100}
-              style={{ borderRadius: 4, objectFit: "cover" }}
-            />
-          </div>
-        ) }
-      </div>
+
+      {previewSource && (
+        <div className="mt-4 flex items-center">
+          <Image
+            src={previewSource}
+            alt="Preview"
+            width={100}
+            height={100}
+            className="rounded object-cover"
+          />
+        </div>
+      )}
     </div>
   );
 };
