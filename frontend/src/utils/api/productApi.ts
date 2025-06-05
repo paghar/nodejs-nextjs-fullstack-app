@@ -1,12 +1,14 @@
 import axios from "axios";
 import { FetchProductParams, ProductType, SortOption } from "@data/interface/product";
-import { API_PRODUCT,API_PRODUCT_PAGINATE } from "@data/constants/public";
+import { API_PRODUCT, API_PRODUCT_PAGINATE } from "@data/constants/public";
 
+// ─── GET: Fetch all products ────────────────────────────────────────────────
 export const fetchProducts = async (): Promise<ProductType[]> => {
   const res = await axios.get(API_PRODUCT);
   return res.data;
 };
 
+// ─── POST: Create a new product ─────────────────────────────────────────────
 export const createProductAPI = async (
   formData: FormData,
   csrfToken: string
@@ -25,15 +27,12 @@ export const createProductAPI = async (
       product: res.data,
     };
   } catch (err: any) {
-    const errorMsg =
-      err?.response?.data?.message || "Failed to create product";
-    return {
-      success: false,
-      message: errorMsg,
-    };
+    const errorMsg = err?.response?.data?.message || "Failed to create product";
+    return { success: false, message: errorMsg };
   }
 };
 
+// ─── PUT: Update existing product ───────────────────────────────────────────
 export const updateProductAPI = async (
   id: number,
   data: FormData,
@@ -58,7 +57,7 @@ export const updateProductAPI = async (
   }
 };
 
-
+// ─── DELETE: Delete a product ───────────────────────────────────────────────
 export const deleteProductAPI = async (
   id: number,
   csrfToken: string
@@ -81,13 +80,13 @@ export const deleteProductAPI = async (
   }
 };
 
-
+// ─── GET: Fetch paginated products with search and sort ─────────────────────
 export async function fetchPaginatedProducts({
   search = "",
   sort = SortOption.PriceAsc,
   page = 1,
   limit = 9,
-}: FetchProductParams) {
+}: FetchProductParams): Promise<any> {
   const params = new URLSearchParams();
 
   if (search) params.append("search", search);
@@ -95,6 +94,6 @@ export async function fetchPaginatedProducts({
   params.append("page", String(page));
   params.append("limit", String(limit));
 
-  const response = await axios.get(`${API_PRODUCT_PAGINATE}${params}`);
+  const response = await axios.get(`${API_PRODUCT_PAGINATE}?${params.toString()}`);
   return response.data;
 }
