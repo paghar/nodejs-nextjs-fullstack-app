@@ -3,12 +3,20 @@ import Button from "@components/ui/Button";
 import { ProductGridProps } from "@data/interface/product";
 import { productGridBtn } from "@data/constants/product";
 import { API_BASE_URL } from "@data/constants/public";
+import Quantity from "@components/ui/Quantity";
+import { useState } from "react";
 
 // ─── Component ──────────────────────────────────────────────────────────────
 export default function ProductGrid({
   products,
   onAddToCart
 }: ProductGridProps ) {
+
+  const [quantity, setQuantities] = useState<Record<number, number>>({});
+
+  const handleQuantityChange = (productId: number, qty: number) => {
+    setQuantities((prev) => ({ ...prev, [productId]: qty }));
+  };
   
   // ─── Render ───────────────────────────────────────────────────────────────
   return (
@@ -37,8 +45,9 @@ export default function ProductGrid({
           </p>
 
           {/* ── Action Buttons ────────────────────────────────────────────── */}
-          <div className="mt-4 flex justify-end gap-2">
-            <Button size="sm" onClick={() => onAddToCart(product)}>
+          <div className="mt-4 flex items-center justify-between gap-2">
+            <Quantity value={quantity[product.id] ?? 1} onChange={(val) => handleQuantityChange(product.id, val)} />
+            <Button size="sm" onClick={() => onAddToCart(product, quantity[product.id] ?? 1)}>
               {productGridBtn.btnAddToCart}
             </Button>
           </div>

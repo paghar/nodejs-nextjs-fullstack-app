@@ -73,7 +73,7 @@ export default function ProductPageWrapper(initialData: PaginatedProducts) {
   }, [search, sort, currentPage, dispatch]);
 
   // ─── Add to Cart Handler ──────────────────────────────────────────────────
-  const handleAddToCart = async (product: ProductType) => {
+  const handleAddToCart = async (product: ProductType, quantity: number ) => {
     try {
       if (!user?.email) {
         toggleLoginModal(dispatch);
@@ -83,7 +83,7 @@ export default function ProductPageWrapper(initialData: PaginatedProducts) {
       const csrfToken = await getCsrfToken();
       if (!csrfToken) throw new Error("CSRF token missing");
 
-      const res = await addToCart(product.id, 1, csrfToken);
+      const res = await addToCart(product.id, quantity, csrfToken);
 
       if (res.success) {
         await fetchCart();
