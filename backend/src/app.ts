@@ -12,7 +12,7 @@ const app: Application = express();
 
 
 app.use(cors({
-  origin: 'http://localhost:3000', // Your Next.js frontend URL
+  origin: 'https://nodejs-nextjs-fullstack-app.onrender.com', // Your Next.js frontend URL
   credentials: true, // Allow cookies and headers
 }));
 app.use(express.json());
