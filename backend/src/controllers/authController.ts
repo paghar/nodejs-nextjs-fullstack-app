@@ -1,15 +1,15 @@
 import { Request, Response } from 'express';
-import { validationResult } from 'express-validator';
+// import { validationResult } from 'express-validator';
 import bcrypt from 'bcrypt';
 import User from '../models/User';
 
 // REGISTER USER
 export const registerUser = async (req: Request, res: Response): Promise<void> => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    res.status(400).json({ errors: errors.array() });
-    return;
-  }
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   res.status(400).json({ errors: errors.array() });
+  //   return;
+  // }
 
   const { name, email, password } = req.body;
 
@@ -40,11 +40,11 @@ export const registerUser = async (req: Request, res: Response): Promise<void> =
 
 // LOGIN USER
 export const loginUser = async (req: Request, res: Response): Promise<void> => {
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    res.status(400).json({ errors: errors.array() });
-    return;
-  }
+  // const errors = validationResult(req);
+  // if (!errors.isEmpty()) {
+  //   res.status(400).json({ errors: errors.array() });
+  //   return;
+  // }
 
   const { email, password } = req.body;
 
