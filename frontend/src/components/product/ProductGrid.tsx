@@ -28,7 +28,7 @@ export default function ProductGrid({
         >
           {/* ── Product Image ─────────────────────────────────────────────── */}
           <Image
-            src={`${API_BASE_URL}${product.image_url}`}
+            src={`${API_BASE_URL}/${product.image_url}`}
             alt={product.name}
             width={300}
             height={160}

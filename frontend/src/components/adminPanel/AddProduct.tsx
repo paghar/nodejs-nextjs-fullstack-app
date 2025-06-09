@@ -97,7 +97,7 @@ export default function AddProduct({
             label="Product Image"
             accept="image/*"
             onChange={handleFileChange}
-            imageUrl={image_url ? `${API_BASE_URL}${image_url}` : null}
+            imageUrl={image_url ? `${API_BASE_URL}/${image_url}` : null}
             name="image_upload"
             file={file}
           />

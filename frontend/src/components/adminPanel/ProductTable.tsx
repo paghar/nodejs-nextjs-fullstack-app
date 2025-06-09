@@ -49,7 +49,7 @@ export default function ProductTable({
               <td className="py-2 px-4 border border-gray-300">
                 <div className="mx-auto h-10 w-10 relative">
                   <Image
-                    src={`${API_BASE_URL}${product.image_url}`}
+                    src={`${API_BASE_URL}/${product.image_url}`}
                     alt={product.name}
                     layout="fill"
                     objectFit="cover"
