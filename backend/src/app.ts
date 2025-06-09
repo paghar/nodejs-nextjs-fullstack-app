@@ -13,7 +13,7 @@ const app: Application = express();
 // 🌍 Define allowed origins for local + production
 const allowedOrigins = [
   'http://localhost:3000', // Local frontend
-  'https://nodejs-nextjs-fullstack-app.onrender.com', // Production frontend
+  'https://nodejs-nextjs-fullstack-app-1.onrender.com', // Production frontend
 ];
 
 // ✅ CORS Setup
